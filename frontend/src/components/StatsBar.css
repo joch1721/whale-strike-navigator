@@ -1,0 +1,38 @@
+.stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.stat-value {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--text-primary);
+}
+.stat-value.dim { color: var(--text-secondary); }
+.stat-label {
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+.stat-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--panel-border);
+}
+.stat-loading {
+  font-size: 14px;
+  color: var(--accent);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

@@ -1,0 +1,336 @@
+/* ── Fonts ─────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
+
+/* ── Design tokens ──────────────────────────────────────────────────────────── */
+:root {
+  --ocean-black:   #04080f;
+  --ocean-deep:    #080f1e;
+  --ocean-mid:     #0d1b2e;
+  --ocean-surface: #112240;
+  --panel-bg:      rgba(8, 15, 30, 0.88);
+  --panel-border:  rgba(90, 200, 250, 0.15);
+  --panel-glow:    rgba(90, 200, 250, 0.05);
+
+  --critical: #ff2d55;
+  --high:     #ff9f0a;
+  --medium:   #30d158;
+  --low:      #0a84ff;
+
+  --text-primary:   #e8f4fd;
+  --text-secondary: #7eb8d4;
+  --text-dim:       #3d6680;
+
+  --accent:   #5ac8fa;
+  --accent-2: #30d158;
+
+  --mono: 'Space Mono', monospace;
+  --sans: 'Syne', sans-serif;
+
+  --radius: 4px;
+  --panel-blur: blur(12px);
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--ocean-black);
+  color: var(--text-primary);
+  font-family: var(--mono);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────────────── */
+.app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.map-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────────────── */
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: linear-gradient(180deg, rgba(4,8,15,0.95) 0%, rgba(4,8,15,0) 100%);
+  backdrop-filter: var(--panel-blur);
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wordmark-icon {
+  font-size: 28px;
+  filter: drop-shadow(0 0 8px rgba(90,200,250,0.6));
+}
+
+.wordmark-title {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.15em;
+  color: var(--text-primary);
+}
+
+.wordmark-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+/* ── Scrubber ────────────────────────────────────────────────────────────────── */
+.scrubber-container {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* ── Species panel ───────────────────────────────────────────────────────────── */
+.species-container {
+  position: absolute;
+  top: 80px;
+  right: 16px;
+  z-index: 10;
+  width: 220px;
+}
+
+/* ── Legend ──────────────────────────────────────────────────────────────────── */
+.legend-container {
+  position: absolute;
+  bottom: 100px;
+  right: 16px;
+  z-index: 10;
+}
+
+/* ── Hover tooltip ───────────────────────────────────────────────────────────── */
+.hover-tooltip {
+  position: absolute;
+  top: 80px;
+  left: 16px;
+  z-index: 20;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  backdrop-filter: var(--panel-blur);
+  min-width: 140px;
+  animation: fadeIn 0.15s ease;
+}
+
+.tooltip-score {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1;
+}
+
+.tooltip-tier {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.tooltip-species {
+  font-size: 10px;
+  color: var(--accent);
+  margin-top: 6px;
+  letter-spacing: 0.05em;
+}
+
+.tooltip-coords {
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* ── Loading bar ─────────────────────────────────────────────────────────────── */
+.loading-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 100;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+/* ── Panel base ──────────────────────────────────────────────────────────────── */
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  backdrop-filter: var(--panel-blur);
+  padding: 12px;
+}
+
+.panel-label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+/* ── Mapbox overrides ────────────────────────────────────────────────────────── */
+.mapboxgl-ctrl-group {
+  background: var(--panel-bg) !important;
+  border: 1px solid var(--panel-border) !important;
+  border-radius: var(--radius) !important;
+}
+
+.mapboxgl-ctrl-group button {
+  background: transparent !important;
+}
+
+.mapboxgl-ctrl-group button span {
+  filter: invert(1) !important;
+}
+
+.mapboxgl-ctrl-scale {
+  background: var(--panel-bg) !important;
+  border-color: var(--panel-border) !important;
+  color: var(--text-secondary) !important;
+  font-family: var(--mono) !important;
+  font-size: 9px !important;
+}
+
+/* ── Animations ──────────────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Species panel wrapper (accommodates drawer) ─────────────────────────── */
+.species-panel-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.species-panel-wrapper::-webkit-scrollbar { display: none; }
+
+/* ── Top bar right ───────────────────────────────────────────────────────── */
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ── Live badge ──────────────────────────────────────────────────────────── */
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(48, 209, 88, 0.1);
+  border: 1px solid rgba(48, 209, 88, 0.3);
+  border-radius: var(--radius);
+  color: #30d158;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.live-badge:hover {
+  background: rgba(48, 209, 88, 0.18);
+}
+
+.live-badge.inactive {
+  background: rgba(255,255,255,0.03);
+  border-color: var(--panel-border);
+  color: var(--text-dim);
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #30d158;
+  flex-shrink: 0;
+}
+
+.live-badge.active .live-dot {
+  animation: pulse 1.5s infinite;
+}
+
+.live-badge.inactive .live-dot {
+  background: var(--text-dim);
+}
+
+/* ── Vessel popup ────────────────────────────────────────────────────────── */
+.mapboxgl-popup-content {
+  background: var(--panel-bg) !important;
+  border: 1px solid var(--panel-border) !important;
+  border-radius: var(--radius) !important;
+  padding: 8px 12px !important;
+  color: var(--text-primary) !important;
+  font-family: var(--mono) !important;
+  backdrop-filter: var(--panel-blur) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+}
+
+.mapboxgl-popup-tip { display: none !important; }
+
+.vpopup-name {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.vpopup-mmsi {
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  letter-spacing: 0.06em;
+}
+
+.vpopup-speed {
+  font-size: 10px;
+  color: #ff9f0a;
+  margin-top: 4px;
+}

@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+.env
+
+# Data files — raw downloads can be large; don't commit them
+data/raw/*
+data/processed/*
+backend/data/raw/*
+backend/data/processed/*
+# Keep the directory structure
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/shapefiles/.gitkeep
+
+# Shapefiles are OK to commit if small (NOAA right whale zones)
+# Uncomment to exclude if they grow too large:
+# data/shapefiles/*
+
+# Node / frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Parquet / large data outputs
+*.parquet
+*.csv.gz
+*.zip
+
+# Logs
+*.log
+logs/

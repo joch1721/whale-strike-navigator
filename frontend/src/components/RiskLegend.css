@@ -1,0 +1,12 @@
+.legend { min-width: 180px; }
+.legend-items { display: flex; flex-direction: column; gap: 6px; }
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.incident-dot { background: #ff375f; border-radius: 50%; border: 1.5px solid white; }
+.legend-line { width: 18px; height: 2px; flex-shrink: 0; }
+.sma-line {
+  background: repeating-linear-gradient(90deg, #5ac8fa 0, #5ac8fa 4px, transparent 4px, transparent 7px);
+}
+.legend-tier { font-size: 10px; color: var(--text-secondary); letter-spacing: 0.06em; flex: 1; }
+.legend-range { font-size: 9px; color: var(--text-dim); font-family: var(--mono); }
+.legend-divider { height: 1px; background: var(--panel-border); margin: 8px 0; }
