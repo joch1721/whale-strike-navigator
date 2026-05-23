@@ -1,0 +1,440 @@
+{
+  "generated_at": "2026-05-22T00:57:21.741150",
+  "strikes_vs_zones": {
+    "total_curated_strikes": 80,
+    "strikes_inside_sma_zone": 32,
+    "strikes_within_50km_of_zone": 80,
+    "pct_inside_zone": 40.0,
+    "pct_near_zone": 100.0,
+    "target_met": true,
+    "strikes_per_zone": {
+      "50 CFR 224.105: Vessels shall travel at a speed of 10 knots or less over ground during the period of January 1 to May 15": 11,
+      "50 CFR 224.105: Vessels shall travel at a speed of 10 knots or less over ground during the period of March 1 to April 30 each year": 10,
+      "50 CFR 224.105: Vessels shall travel at a speed of 10 knots or less over ground during the period of November 15 to April 15 each year": 10,
+      "50 CFR 224.105: Vessels shall travel 10 knots or less over ground in the period November 1 to April 30 each year": 1
+    },
+    "strikes_outside_zones": [
+      {
+        "incident_id": "S002",
+        "species_code": "NARW",
+        "lat": 41.5,
+        "lon": -71.0,
+        "year": 1996
+      },
+      {
+        "incident_id": "S004",
+        "species_code": "NARW",
+        "lat": 42.5,
+        "lon": -70.5,
+        "year": 1999
+      },
+      {
+        "incident_id": "S005",
+        "species_code": "NARW",
+        "lat": 35.5,
+        "lon": -75.5,
+        "year": 2000
+      },
+      {
+        "incident_id": "S008",
+        "species_code": "NARW",
+        "lat": 30.2,
+        "lon": -80.5,
+        "year": 2002
+      },
+      {
+        "incident_id": "S009",
+        "species_code": "NARW",
+        "lat": 43.5,
+        "lon": -69.5,
+        "year": 2004
+      },
+      {
+        "incident_id": "S013",
+        "species_code": "NARW",
+        "lat": 41.6,
+        "lon": -70.9,
+        "year": 2006
+      },
+      {
+        "incident_id": "S014",
+        "species_code": "NARW",
+        "lat": 38.5,
+        "lon": -74.5,
+        "year": 2007
+      },
+      {
+        "incident_id": "S018",
+        "species_code": "NARW",
+        "lat": 43.0,
+        "lon": -70.0,
+        "year": 2010
+      },
+      {
+        "incident_id": "S021",
+        "species_code": "NARW",
+        "lat": 41.5,
+        "lon": -70.7,
+        "year": 2012
+      },
+      {
+        "incident_id": "S022",
+        "species_code": "NARW",
+        "lat": 38.0,
+        "lon": -75.0,
+        "year": 2013
+      },
+      {
+        "incident_id": "S026",
+        "species_code": "NARW",
+        "lat": 44.5,
+        "lon": -66.5,
+        "year": 2017
+      },
+      {
+        "incident_id": "S027",
+        "species_code": "NARW",
+        "lat": 44.8,
+        "lon": -66.2,
+        "year": 2017
+      },
+      {
+        "incident_id": "S028",
+        "species_code": "NARW",
+        "lat": 45.0,
+        "lon": -65.8,
+        "year": 2017
+      },
+      {
+        "incident_id": "S029",
+        "species_code": "NARW",
+        "lat": 44.2,
+        "lon": -66.8,
+        "year": 2017
+      },
+      {
+        "incident_id": "S032",
+        "species_code": "NARW",
+        "lat": 44.6,
+        "lon": -66.4,
+        "year": 2018
+      },
+      {
+        "incident_id": "S035",
+        "species_code": "NARW",
+        "lat": 42.5,
+        "lon": -70.3,
+        "year": 2019
+      },
+      {
+        "incident_id": "S036",
+        "species_code": "NARW",
+        "lat": 44.0,
+        "lon": -67.0,
+        "year": 2020
+      },
+      {
+        "incident_id": "S038",
+        "species_code": "NARW",
+        "lat": 41.7,
+        "lon": -70.2,
+        "year": 2021
+      },
+      {
+        "incident_id": "S039",
+        "species_code": "NARW",
+        "lat": 43.2,
+        "lon": -69.8,
+        "year": 2021
+      },
+      {
+        "incident_id": "S042",
+        "species_code": "NARW",
+        "lat": 44.5,
+        "lon": -66.3,
+        "year": 2022
+      },
+      {
+        "incident_id": "S043",
+        "species_code": "NARW",
+        "lat": 41.5,
+        "lon": -71.0,
+        "year": 2023
+      },
+      {
+        "incident_id": "S045",
+        "species_code": "BLUE",
+        "lat": 37.5,
+        "lon": -122.5,
+        "year": 2007
+      },
+      {
+        "incident_id": "S046",
+        "species_code": "BLUE",
+        "lat": 33.8,
+        "lon": -119.5,
+        "year": 2009
+      },
+      {
+        "incident_id": "S047",
+        "species_code": "BLUE",
+        "lat": 37.8,
+        "lon": -123.0,
+        "year": 2010
+      },
+      {
+        "incident_id": "S048",
+        "species_code": "BLUE",
+        "lat": 33.5,
+        "lon": -118.5,
+        "year": 2012
+      },
+      {
+        "incident_id": "S049",
+        "species_code": "BLUE",
+        "lat": 37.6,
+        "lon": -122.8,
+        "year": 2014
+      },
+      {
+        "incident_id": "S050",
+        "species_code": "BLUE",
+        "lat": 33.7,
+        "lon": -119.3,
+        "year": 2016
+      },
+      {
+        "incident_id": "S051",
+        "species_code": "BLUE",
+        "lat": 37.9,
+        "lon": -123.1,
+        "year": 2018
+      },
+      {
+        "incident_id": "S052",
+        "species_code": "BLUE",
+        "lat": 33.6,
+        "lon": -118.4,
+        "year": 2019
+      },
+      {
+        "incident_id": "S053",
+        "species_code": "BLUE",
+        "lat": 37.7,
+        "lon": -122.9,
+        "year": 2021
+      },
+      {
+        "incident_id": "S054",
+        "species_code": "BLUE",
+        "lat": 33.9,
+        "lon": -119.6,
+        "year": 2022
+      },
+      {
+        "incident_id": "S055",
+        "species_code": "HUMPBACK",
+        "lat": 42.3,
+        "lon": -70.5,
+        "year": 2006
+      },
+      {
+        "incident_id": "S056",
+        "species_code": "HUMPBACK",
+        "lat": 37.8,
+        "lon": -122.6,
+        "year": 2007
+      },
+      {
+        "incident_id": "S057",
+        "species_code": "HUMPBACK",
+        "lat": 42.5,
+        "lon": -70.2,
+        "year": 2009
+      },
+      {
+        "incident_id": "S058",
+        "species_code": "HUMPBACK",
+        "lat": 33.7,
+        "lon": -118.3,
+        "year": 2010
+      },
+      {
+        "incident_id": "S060",
+        "species_code": "HUMPBACK",
+        "lat": 37.6,
+        "lon": -122.7,
+        "year": 2012
+      },
+      {
+        "incident_id": "S062",
+        "species_code": "HUMPBACK",
+        "lat": 33.5,
+        "lon": -118.2,
+        "year": 2015
+      },
+      {
+        "incident_id": "S064",
+        "species_code": "HUMPBACK",
+        "lat": 37.9,
+        "lon": -123.0,
+        "year": 2017
+      },
+      {
+        "incident_id": "S065",
+        "species_code": "HUMPBACK",
+        "lat": 41.8,
+        "lon": -70.6,
+        "year": 2018
+      },
+      {
+        "incident_id": "S066",
+        "species_code": "HUMPBACK",
+        "lat": 33.8,
+        "lon": -118.4,
+        "year": 2019
+      },
+      {
+        "incident_id": "S068",
+        "species_code": "HUMPBACK",
+        "lat": 37.7,
+        "lon": -122.5,
+        "year": 2021
+      },
+      {
+        "incident_id": "S070",
+        "species_code": "HUMPBACK",
+        "lat": 33.6,
+        "lon": -118.5,
+        "year": 2023
+      },
+      {
+        "incident_id": "S072",
+        "species_code": "FIN",
+        "lat": 37.5,
+        "lon": -122.4,
+        "year": 2005
+      },
+      {
+        "incident_id": "S074",
+        "species_code": "FIN",
+        "lat": 33.6,
+        "lon": -118.3,
+        "year": 2010
+      },
+      {
+        "incident_id": "S075",
+        "species_code": "FIN",
+        "lat": 42.2,
+        "lon": -70.5,
+        "year": 2012
+      },
+      {
+        "incident_id": "S076",
+        "species_code": "FIN",
+        "lat": 37.8,
+        "lon": -122.8,
+        "year": 2014
+      },
+      {
+        "incident_id": "S078",
+        "species_code": "FIN",
+        "lat": 33.7,
+        "lon": -118.5,
+        "year": 2018
+      },
+      {
+        "incident_id": "S080",
+        "species_code": "FIN",
+        "lat": 37.6,
+        "lon": -122.6,
+        "year": 2022
+      }
+    ]
+  },
+  "strikes_vs_occurrences": {
+    "total_strikes": 80,
+    "strikes_with_occurrence_records": 52,
+    "pct_with_occurrences": 65.0,
+    "median_occurrences_at_strike_cell": 1070.0
+  },
+  "ais_quality": {
+    "total_records": 1354108,
+    "speed_outliers": 12703,
+    "pct_speed_outliers": 0.94,
+    "speed_distribution": {
+      "slow_0_10kn": 1041731,
+      "medium_10_14kn": 167906,
+      "fast_14plus_kn": 138624
+    },
+    "top_vessel_types": {
+      "37": 214601,
+      "52": 212823,
+      "60": 164668,
+      "70": 117840,
+      "36": 111048,
+      "30": 109883,
+      "31": 81514,
+      "80": 68382,
+      "69": 35213,
+      "79": 27825
+    },
+    "lat_range": [
+      24.0,
+      45.25455
+    ],
+    "lon_range": [
+      -82.0,
+      -60.55823
+    ],
+    "months_covered": [
+      1
+    ],
+    "recommendation": "Filter speed_knots > 40.0 before risk scoring"
+  },
+  "occurrence_coverage": {
+    "BLUE": {
+      "total_records": 35,
+      "months_with_data": [
+        4,
+        7,
+        8,
+        9,
+        11,
+        12
+      ],
+      "missing_months": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        10
+      ],
+      "sources": {
+        "OBIS": 35
+      }
+    },
+    "NARW": {
+      "total_records": 6802,
+      "months_with_data": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "missing_months": [],
+      "sources": {
+        "OBIS": 6802
+      }
+    }
+  }
+}

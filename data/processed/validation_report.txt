@@ -1,0 +1,33 @@
+============================================================
+WHALE STRIKE RISK NAVIGATOR — STEP 1.6 VALIDATION REPORT
+Generated: 2026-05-22T00:57:21.741150
+============================================================
+
+── CHECK 1: Strikes vs SMA Zones ──────────────────────────
+  Curated strikes:            80
+  Inside SMA zone (exact):    32 (40.0%)
+  Within 50km of zone:        80 (100.0%)
+  Target (≥70%):              PASS ✅
+
+  Strikes per zone:
+    50 CFR 224.105: Vessels shall travel at a speed of 10 knots or less over ground during the period of January 1 to May 15: 11
+    50 CFR 224.105: Vessels shall travel at a speed of 10 knots or less over ground during the period of March 1 to April 30 each year: 10
+    50 CFR 224.105: Vessels shall travel at a speed of 10 knots or less over ground during the period of November 15 to April 15 each year: 10
+    50 CFR 224.105: Vessels shall travel 10 knots or less over ground in the period November 1 to April 30 each year: 1
+
+── CHECK 2: Strikes vs Whale Occurrences ──────────────────
+  Strikes with occurrence records: 52
+  Pct with occurrences:            65.0%
+  Median occurrences at strike:    1070.0
+
+── CHECK 3: AIS Data Quality ──────────────────────────────
+  Total AIS records:    1,354,108
+  Speed outliers:       12703 (0.94%)
+  Months covered:       [1]
+  Recommendation:       Filter speed_knots > 40.0 before risk scoring
+
+── CHECK 4: Whale Occurrence Coverage ─────────────────────
+  BLUE: 35 records, missing months: [1, 2, 3, 5, 6, 10]
+  NARW: 6,802 records, missing months: []
+
+============================================================
