@@ -12,19 +12,8 @@ venv/
 env/
 .env
 
-# Data files — raw downloads can be large; don't commit them
-data/raw/*
-data/processed/*
-backend/data/raw/*
-backend/data/processed/*
-# Keep the directory structure
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-!data/shapefiles/.gitkeep
-
-# Shapefiles are OK to commit if small (NOAA right whale zones)
-# Uncomment to exclude if they grow too large:
-# data/shapefiles/*
+# Raw AIS data — large files, not committed
+data/raw/ais/
 
 # Node / frontend
 node_modules/
@@ -42,11 +31,10 @@ Thumbs.db
 .idea/
 *.swp
 
-# Parquet / large data outputs
-*.parquet
-*.csv.gz
-*.zip
-
 # Logs
 *.log
 logs/
+
+# Live data — regenerated at runtime
+data/raw/ais/live_*.parquet
+data/processed/risk_grid_live.parquet
