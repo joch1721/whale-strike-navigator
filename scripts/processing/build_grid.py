@@ -49,7 +49,8 @@ RESOLUTION = 0.1
 # Bounding boxes to generate grid for (min_lon, min_lat, max_lon, max_lat)
 # We generate one unified grid covering all NARW habitat zones
 GRID_BOUNDS = {
-    "atlantic": (-82.0, 24.0, -60.0, 47.0),   # Gulf of Maine + Mid-Atlantic + SE US
+    "atlantic": (-82.0, 24.0, -60.0, 50.0),   # Gulf of Maine + Gulf of St. Lawrence + SE US
+    "pacific":  (-124.0, 32.0, -117.0, 38.5), # Santa Barbara + Gulf of Farallones
 }
 
 # Output
@@ -62,22 +63,33 @@ OUT_PATH = OUT_DIR / "grid_cells.parquet"
 def load_land_mask() -> gpd.GeoDataFrame:
     """
     Load a low-resolution land polygon dataset to filter out land cells.
-    Uses GeoPandas built-in Natural Earth data — no download needed.
+    Downloads via httpx with certifi SSL to avoid Mac certificate issues.
     """
+    import io, ssl, certifi, httpx, json
+
     logger.info("Loading land mask (Natural Earth 110m)...")
+    url = (
+        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
+        "master/geojson/ne_110m_land.geojson"
+    )
     try:
-        land = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
-        logger.success(f"  Loaded {len(land)} land polygons")
+        r = httpx.get(url, timeout=30, verify=certifi.where())
+        r.raise_for_status()
+        land = gpd.read_file(io.BytesIO(r.content))
+        logger.success(f"  Downloaded {len(land)} land polygons")
         return land
     except Exception as e:
-        logger.warning(f"  Built-in dataset failed: {e}")
-        logger.info("  Falling back to simplified land mask via download...")
-        url = (
-            "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
-            "master/geojson/ne_110m_land.geojson"
-        )
-        land = gpd.read_file(url)
-        logger.success(f"  Downloaded {len(land)} land polygons")
+        logger.warning(f"  Download failed: {e}")
+        logger.info("  Using minimal bounding-box land mask as fallback...")
+        # Minimal fallback: just a rough land polygon for the continental US
+        from shapely.geometry import box
+        land_boxes = [
+            box(-125, 24, -66, 50),   # continental US
+            box(-141, 49, -52, 84),   # Canada
+            box(-82, 8, -59, 12),     # Caribbean
+        ]
+        land = gpd.GeoDataFrame(geometry=land_boxes, crs="EPSG:4326")
+        logger.warning("  Using rough fallback land mask — some coastal cells may be wrong")
         return land
 
 

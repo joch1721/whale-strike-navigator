@@ -28,11 +28,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-import ssl
-
-import certifi
 import pandas as pd
-import ssl
 import websockets
 from loguru import logger
 
@@ -53,9 +49,11 @@ API_KEY = os.getenv("AISSTREAM_API_KEY", "")
 # aisstream uses [lat, lon] order (opposite of GeoJSON!)
 BOUNDING_BOXES = [
     # Gulf of Maine + Mid-Atlantic (primary NARW feeding grounds)
-    [[40.0, -76.0], [47.0, -60.0]],
+    [[40.0, -76.0], [50.0, -60.0]],
     # Southeast US (NARW winter calving grounds)
     [[24.0, -82.0], [32.0, -76.0]],
+    # Santa Barbara Channel + Gulf of Farallones (Blue/Humpback)
+    [[32.0, -124.0], [38.5, -117.0]],
 ]
 
 # Only pull position reports — we don't need voyage or static data yet
@@ -190,10 +188,8 @@ async def stream(buffer: MessageBuffer, stop_event: asyncio.Event) -> None:
     while not stop_event.is_set():
         try:
             logger.info(f"Connecting to {AISSTREAM_URL}...")
-            ssl_ctx = ssl.create_default_context(cafile=certifi.where())
             async with websockets.connect(
                 AISSTREAM_URL,
-                ssl=ssl_ctx,
                 ping_interval=20,
                 ping_timeout=30,
                 open_timeout=15,

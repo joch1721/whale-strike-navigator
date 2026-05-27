@@ -35,8 +35,11 @@ from app.utils.species import SPECIES
 
 # Bounding boxes (min_lon, min_lat, max_lon, max_lat) — same as AIS ingestion
 BBOXES = {
-    "gulf_of_maine": (-76.0, 40.0, -60.0, 47.0),
-    "southeast_us":  (-82.0, 24.0, -76.0, 32.0),
+    "gulf_of_maine":      (-76.0, 40.0, -60.0, 50.0),
+    "southeast_us":       (-82.0, 24.0, -76.0, 32.0),
+    "santa_barbara":      (-122.0, 32.0, -117.0, 35.5),
+    "gulf_farallones":    (-124.0, 36.5, -121.0, 38.5),
+    "san_pedro_channel":  (-120.5, 32.5, -117.0, 34.5),
 }
 
 # Year range to pull occurrences for
@@ -249,7 +252,6 @@ def clean(df: pd.DataFrame, species_key: str) -> pd.DataFrame:
     df["record_type"] = df["record_type"].str.lower().str.replace("_", " ")
 
     # Drop rows with no valid position
-    df["individual_count"] = pd.to_numeric(df["individual_count"], errors="coerce")
     df = df.dropna(subset=["lat", "lon"])
     df = df[(df["lat"].between(-90, 90)) & (df["lon"].between(-180, 180))]
 

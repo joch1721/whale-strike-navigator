@@ -78,11 +78,12 @@ def snap_to_grid(df: pd.DataFrame, resolution: float = 0.1) -> pd.DataFrame:
     return df
 
 
-def normalize_live_density(series: pd.Series) -> pd.Series:
-    REFERENCE_MAX = 50  # vessels per cell — calibrated to live feed density
+def log_normalize(series: pd.Series) -> pd.Series:
     log_vals = np.log1p(series)
-    log_ref  = np.log1p(REFERENCE_MAX)
-    return (log_vals / log_ref).clip(0, 1)
+    mn, mx = log_vals.min(), log_vals.max()
+    if mx == mn:
+        return pd.Series(0.0, index=series.index)
+    return (log_vals - mn) / (mx - mn)
 
 
 def risk_tier(score: float) -> str:
@@ -107,7 +108,10 @@ def load_live_ais() -> pd.DataFrame | None:
     df = df.dropna(subset=["lat", "lon"])
     df["speed_knots"] = pd.to_numeric(df["speed_knots"], errors="coerce").fillna(0)
     df = df[df["speed_knots"] <= MAX_REALISTIC_SPEED]
-    df = df[df["lat"].between(24, 47) & df["lon"].between(-82, -60)]
+    df = df[
+        (df["lat"].between(24, 50) & df["lon"].between(-82, -60)) |
+        (df["lat"].between(32, 38.5) & df["lon"].between(-124, -117))
+    ]
 
     return df
 
@@ -136,7 +140,7 @@ def build_live_risk() -> None:
     # Snap to grid and aggregate
     ais["vt_weight"] = ais.get("vessel_type", pd.Series(dtype=str)).apply(
         lambda x: get_vessel_weight(x) if pd.notna(x) else 0.5
-    ).astype(float)
+    )
     ais = snap_to_grid(ais)
 
     agg = ais.groupby("cell_id").agg(
@@ -146,11 +150,9 @@ def build_live_risk() -> None:
         mean_speed_knots=("speed_knots", "mean"),
         vessel_type_weight=("vt_weight", "mean"),
     ).reset_index()
-    agg["vessel_type_weight"] = agg["vessel_type_weight"].fillna(0.5)
-    agg["mean_speed_knots"]   = agg["mean_speed_knots"].fillna(0.0)
 
     agg["speed_factor"]     = agg["mean_speed_knots"].apply(speed_factor)
-    agg["shipping_density"] = normalize_live_density(agg["vessel_count"])
+    agg["shipping_density"] = log_normalize(agg["vessel_count"])
 
     logger.info(f"  Live vessels aggregated: {len(agg)} occupied cells")
 
@@ -176,7 +178,7 @@ def build_live_risk() -> None:
     whale    = agg["whale_presence_prob"].clip(0, 1)
 
     modifier            = (speed + vtype) / 2
-    agg["risk_score"]   = (density * modifier * whale * 100).fillna(0.0).round(4)
+    agg["risk_score"]   = (density * modifier * whale * 100).round(2)
     agg["risk_tier"]    = agg["risk_score"].apply(risk_tier)
     agg["month"]        = month
     agg["generated_at"] = now.isoformat()
@@ -195,7 +197,7 @@ def build_live_risk() -> None:
 
     agg.to_parquet(OUT_PATH, index=False)
 
-    n_active = (agg["risk_score"] > 0.01).sum()
+    n_active = (agg["risk_score"] > 0).sum()
     tiers    = agg["risk_tier"].value_counts().to_dict()
     logger.success(
         f"Live risk grid saved → {OUT_PATH.name} | "

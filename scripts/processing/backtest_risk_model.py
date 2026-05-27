@@ -71,9 +71,17 @@ def load_incidents() -> pd.DataFrame:
 
 def load_risk_grid() -> pd.DataFrame:
     """Load all available monthly risk grids."""
+    # Use the combined file which has all months
+    combined_path = RISK_DIR / "risk_grid_all.parquet"
+    if combined_path.exists():
+        combined = pd.read_parquet(combined_path)
+        logger.info(f"Loaded risk grid: {len(combined):,} rows, months {sorted(combined['month'].unique().tolist())}")
+        return combined
+    # Fallback to individual files
     frames = []
-    for f in sorted(RISK_DIR.glob("risk_grid_0[0-9].parquet")):
-        frames.append(pd.read_parquet(f))
+    for f in sorted(RISK_DIR.glob("risk_grid_[0-9]*.parquet")):
+        if "all" not in f.name and "live" not in f.name:
+            frames.append(pd.read_parquet(f))
     if not frames:
         logger.error("No risk grid files found — run build_risk_scores.py first")
         sys.exit(1)

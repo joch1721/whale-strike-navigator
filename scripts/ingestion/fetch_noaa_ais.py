@@ -47,18 +47,15 @@ SAMPLE_DAYS = {
     4:  [5, 15, 25],   # April
     5:  [5, 15, 25],   # May
     6:  [5, 15, 25],   # June
-    7:  [5, 15, 25],
-    8:  [5, 15, 25],
-    9:  [5, 15, 25],
-    10: [5, 15, 25],
-    11: [5, 15, 25],
-    12: [5, 15, 25],
 }
 
 # Bounding boxes (min_lon, min_lat, max_lon, max_lat)
 BBOXES = {
-    "gulf_of_maine": (-76.0, 40.0, -60.0, 47.0),
-    "southeast_us":  (-82.0, 24.0, -76.0, 32.0),
+    "gulf_of_maine":      (-76.0, 40.0, -60.0, 50.0),
+    "southeast_us":       (-82.0, 24.0, -76.0, 32.0),
+    "santa_barbara":      (-122.0, 32.0, -117.0, 35.5),  # Blue/Humpback hotspot
+    "gulf_farallones":    (-124.0, 36.5, -121.0, 38.5),  # Blue Whale feeding
+    "san_pedro_channel":  (-120.5, 32.5, -117.0, 34.5),  # Humpback/Blue corridor
 }
 
 # Columns to keep
