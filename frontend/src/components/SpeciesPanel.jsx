@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './SpeciesPanel.css'
 import SpeciesDrawer from './SpeciesDrawer'
+import WhaleIcon from './WhaleIcon'
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
@@ -12,12 +13,7 @@ const IUCN_COLORS = {
   'Least Concern':         '#30d158',
 }
 
-const SPECIES_ICONS = {
-  narw:     '🐋',
-  blue:     '🐳',
-  humpback: '🐳',
-  fin:      '🐬',
-}
+
 
 export default function SpeciesPanel({ active, onSelect }) {
   const [species, setSpecies]     = useState([])
@@ -54,7 +50,7 @@ export default function SpeciesPanel({ active, onSelect }) {
                 style={{ '--species-color': iucnColor }}
               >
                 <div className="species-header">
-                  <span className="species-icon">{SPECIES_ICONS[sp.key]}</span>
+                  <WhaleIcon color={iucnColor} size={22} className="species-icon" />
                   <div>
                     <div className="species-name">{sp.common_name}</div>
                     <div className="species-sci">{sp.scientific_name}</div>

@@ -123,7 +123,7 @@ export default function SpeciesDrawer({ speciesKey, speciesData, onClose }) {
               <BarChart data={monthlyData} margin={{ top: 4, right: 0, left: 0, bottom: 0 }}>
                 <XAxis
                   dataKey="month"
-                  tick={{ fill: '#3d6680', fontSize: 9, fontFamily: 'Space Mono' }}
+                  tick={{ fill: '#3d6680', fontSize: 9, fontFamily: 'IBM Plex Mono' }}
                   axisLine={false}
                   tickLine={false}
                 />

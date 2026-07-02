@@ -7,6 +7,7 @@ import SpeciesPanel from './components/SpeciesPanel'
 import RiskLegend from './components/RiskLegend'
 import MonthScrubber from './components/MonthScrubber'
 import StatsBar from './components/StatsBar'
+import WhaleIcon from './components/WhaleIcon'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
 const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
@@ -414,7 +415,7 @@ export default function App() {
 
       <header className="top-bar">
         <div className="wordmark">
-          <span className="wordmark-icon">🐋</span>
+          <WhaleIcon color="#5ac8fa" size={30} className="wordmark-icon" />
           <div>
             <div className="wordmark-title">WHALE STRIKE NAVIGATOR</div>
             <div className="wordmark-sub">Ship–Whale Collision Risk · North Atlantic</div>
@@ -434,7 +435,11 @@ export default function App() {
       </header>
 
       <div className="scrubber-container">
-        <MonthScrubber month={month} onChange={setMonth} />
+        <MonthScrubber
+  month={month}
+  onChange={setMonth}
+  dataMonths={riskSummary?.months?.map(m => m.month).sort((a, b) => a - b) ?? [1]}
+/>
       </div>
 
       <div className="species-container">

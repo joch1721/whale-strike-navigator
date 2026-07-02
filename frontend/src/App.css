@@ -1,5 +1,5 @@
 /* ── Fonts ─────────────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 /* ── Design tokens ──────────────────────────────────────────────────────────── */
 :root {
@@ -23,8 +23,8 @@
   --accent:   #5ac8fa;
   --accent-2: #30d158;
 
-  --mono: 'Space Mono', monospace;
-  --sans: 'Syne', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'Space Grotesk', sans-serif;  
 
   --radius: 4px;
   --panel-blur: blur(12px);
@@ -80,8 +80,7 @@ body {
 }
 
 .wordmark-icon {
-  font-size: 28px;
-  filter: drop-shadow(0 0 8px rgba(90,200,250,0.6));
+    filter: drop-shadow(0 0 8px rgba(90,200,250,0.6));
 }
 
 .wordmark-title {
@@ -114,8 +113,10 @@ body {
   position: absolute;
   top: 80px;
   right: 16px;
+  bottom: 300px;   /* reserved space so it never overlaps the legend */
   z-index: 10;
   width: 220px;
+  display: flex;
 }
 
 /* ── Legend ──────────────────────────────────────────────────────────────────── */
@@ -244,7 +245,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
-  max-height: calc(100vh - 100px);
+  max-height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
 }

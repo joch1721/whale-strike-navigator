@@ -8,16 +8,15 @@ const MONTHS = [
 
 const SMA_ACTIVE = [11, 12, 1, 2, 3, 4]
 
-// Months we actually have AIS data for
-const DATA_MONTHS = [1, 2, 3, 4, 5, 6]
-
 const SPEEDS = [
   { label: '0.5×', ms: 2000 },
   { label: '1×',   ms: 1000 },
   { label: '2×',   ms: 500  },
 ]
 
-export default function MonthScrubber({ month, onChange }) {
+export default function MonthScrubber({ month, onChange, dataMonths }) {
+  const safeMonths = dataMonths?.length ? dataMonths : [month]
+
   const [playing, setPlaying]   = useState(false)
   const [speedIdx, setSpeedIdx] = useState(1)
   const intervalRef             = useRef(null)
@@ -30,23 +29,23 @@ export default function MonthScrubber({ month, onChange }) {
 
     intervalRef.current = setInterval(() => {
       onChange(prev => {
-        const currentIdx = DATA_MONTHS.indexOf(prev)
-        const nextIdx    = (currentIdx + 1) % DATA_MONTHS.length
+        const currentIdx = safeMonths.indexOf(prev)
+        const nextIdx    = (currentIdx + 1) % safeMonths.length
         // Stop at end of data months
         if (nextIdx === 0) {
           setPlaying(false)
-          return DATA_MONTHS[0]
+          return safeMonths[0]
         }
-        return DATA_MONTHS[nextIdx]
+        return safeMonths[nextIdx]
       })
     }, SPEEDS[speedIdx].ms)
 
     return () => clearInterval(intervalRef.current)
-  }, [playing, speedIdx, onChange])
+  }, [playing, speedIdx, onChange, safeMonths])
 
   const togglePlay = () => {
-    if (!playing && !DATA_MONTHS.includes(month)) {
-      onChange(DATA_MONTHS[0])
+    if (!playing && !safeMonths.includes(month)) {
+      onChange(safeMonths[0])
     }
     setPlaying(p => !p)
   }
@@ -83,7 +82,7 @@ export default function MonthScrubber({ month, onChange }) {
           const m        = i + 1
           const isActive = m === month
           const hasSMA   = SMA_ACTIVE.includes(m)
-          const hasData  = DATA_MONTHS.includes(m)
+          const hasData  = safeMonths.includes(m)
           return (
             <button
               key={m}
@@ -103,7 +102,7 @@ export default function MonthScrubber({ month, onChange }) {
           <div
             className="playback-progress"
             style={{
-              width: `${(DATA_MONTHS.indexOf(month) / (DATA_MONTHS.length - 1)) * 100}%`
+              width: `${(safeMonths.indexOf(month) / (safeMonths.length - 1)) * 100}%`
             }}
           />
         </div>

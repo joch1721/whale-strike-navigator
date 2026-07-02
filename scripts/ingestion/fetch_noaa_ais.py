@@ -47,6 +47,12 @@ SAMPLE_DAYS = {
     4:  [5, 15, 25],   # April
     5:  [5, 15, 25],   # May
     6:  [5, 15, 25],   # June
+    7:  [5, 15, 25],   # July
+    8:  [5, 15, 25],   # August
+    9:  [5, 15, 25],   # September
+    10: [5, 15, 25],   # October
+    11: [5, 15, 25],   # November
+    12: [5, 15, 25],   # December
 }
 
 # Bounding boxes (min_lon, min_lat, max_lon, max_lat)
@@ -99,23 +105,37 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     return df.reset_index(drop=True)
 
 
-def fetch_day(month: int, day: int) -> pd.DataFrame | None:
-    """Download, unzip, clip, and clean one daily CSV."""
+def fetch_day(month: int, day: int, max_retries: int = 3) -> pd.DataFrame | None:
+    """Download, unzip, clip, and clean one daily CSV. Streams in chunks with retries."""
     url = f"{NOAA_BASE}/AIS_2024_{month:02d}_{day:02d}.zip"
     logger.info(f"  Fetching {url.split('/')[-1]}...")
 
-    try:
-        r = httpx.get(url, timeout=300, follow_redirects=True)
-        r.raise_for_status()
-    except httpx.HTTPStatusError as e:
-        logger.warning(f"    HTTP {e.response.status_code} — skipping")
-        return None
-    except Exception as e:
-        logger.warning(f"    Failed: {e} — skipping")
-        return None
+    for attempt in range(1, max_retries + 1):
+        try:
+            buf = io.BytesIO()
+            with httpx.stream("GET", url, timeout=600, follow_redirects=True) as r:
+                r.raise_for_status()
+                total = int(r.headers.get("content-length", 0))
+                downloaded = 0
+                for chunk in r.iter_bytes(chunk_size=1024 * 1024):  # 1 MB chunks
+                    buf.write(chunk)
+                    downloaded += len(chunk)
+            logger.info(f"    Downloaded {downloaded / 1e6:.1f} MB")
+            break  # success
+        except httpx.HTTPStatusError as e:
+            logger.warning(f"    HTTP {e.response.status_code} — skipping")
+            return None
+        except Exception as e:
+            if attempt < max_retries:
+                logger.warning(f"    Attempt {attempt} failed: {e} — retrying...")
+                buf = io.BytesIO()
+            else:
+                logger.warning(f"    All {max_retries} attempts failed: {e} — skipping")
+                return None
 
     try:
-        with zipfile.ZipFile(io.BytesIO(r.content)) as zf:
+        buf.seek(0)
+        with zipfile.ZipFile(buf) as zf:
             csv_name = zf.namelist()[0]
             with zf.open(csv_name) as f:
                 df = pd.read_csv(f, low_memory=False)
