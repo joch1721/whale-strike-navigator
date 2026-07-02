@@ -108,23 +108,30 @@ body {
   z-index: 10;
 }
 
-/* ── Species panel ───────────────────────────────────────────────────────────── */
-.species-container {
+/* ── Right rail (species panel + legend share one flex column, so they
+   physically cannot overlap regardless of either panel's content height) ── */
+.right-rail {
   position: absolute;
   top: 80px;
+  bottom: 16px;
   right: 16px;
-  bottom: 300px;   /* reserved space so it never overlaps the legend */
   z-index: 10;
   width: 220px;
   display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* ── Legend ──────────────────────────────────────────────────────────────────── */
-.legend-container {
-  position: absolute;
-  bottom: 100px;
-  right: 16px;
-  z-index: 10;
+.right-rail-scroll {
+  flex: 1 1 auto;
+  min-height: 0;      /* required for flex children to actually shrink/scroll */
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.right-rail-scroll::-webkit-scrollbar { display: none; }
+
+.right-rail-legend {
+  flex: 0 0 auto;      /* legend always renders at its natural height */
 }
 
 /* ── Hover tooltip ───────────────────────────────────────────────────────────── */
@@ -245,11 +252,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
-  max-height: 100%;
-  overflow-y: auto;
-  scrollbar-width: none;
 }
-.species-panel-wrapper::-webkit-scrollbar { display: none; }
 
 /* ── Top bar right ───────────────────────────────────────────────────────── */
 .top-bar-right {

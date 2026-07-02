@@ -442,13 +442,14 @@ export default function App() {
 />
       </div>
 
-      <div className="species-container">
-        <SpeciesPanel active={activeSpecies} onSelect={setActiveSpecies} />
-      </div>
-
-      <div className="legend-container">
-        <RiskLegend showLive={showLive} />
-      </div>
+      <div className="right-rail">
+  <div className="right-rail-scroll">
+    <SpeciesPanel active={activeSpecies} onSelect={setActiveSpecies} />
+  </div>
+  <div className="right-rail-legend">
+    <RiskLegend showLive={showLive} />
+  </div>
+</div>
 
       {hoveredCell && (
         <div className="hover-tooltip">
