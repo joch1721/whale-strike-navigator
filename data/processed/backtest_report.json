@@ -1,63 +1,63 @@
 {
-  "generated_at": "2026-05-26T23:59:05.938338",
+  "generated_at": "2026-07-02T22:12:49.196321",
   "total_curated_strikes": 80,
   "strikes_in_grid": 65,
   "strikes_outside_grid": 15,
   "primary_target_score": 8.5,
   "stretch_target_score": 15.8,
-  "n_above_primary_target": 15,
-  "n_above_stretch_target": 8,
-  "pct_above_primary": 18.8,
-  "pct_above_stretch": 10.0,
+  "n_above_primary_target": 49,
+  "n_above_stretch_target": 33,
+  "pct_above_primary": 61.3,
+  "pct_above_stretch": 41.2,
   "primary_target_met": "False",
-  "mean_risk_at_strikes": 5.11,
-  "mean_risk_global": 0.1136,
-  "mean_risk_nonzero_cells": 2.99,
-  "signal_ratio": 1.71,
+  "mean_risk_at_strikes": 17.25,
+  "mean_risk_global": 0.7762,
+  "mean_risk_nonzero_cells": 13.33,
+  "signal_ratio": 1.29,
   "tier_breakdown": {
-    "low": 50,
-    "medium": 7,
-    "critical": 5,
-    "high": 3
+    "critical": 26,
+    "medium": 16,
+    "low": 16,
+    "high": 7
   },
   "by_species": {
     "BLUE": {
       "total_strikes": 9,
-      "captured": 0,
-      "pct_captured": 0.0,
-      "mean_risk_score": 0.0
+      "captured": 9,
+      "pct_captured": 100.0,
+      "mean_risk_score": 22.1
     },
     "FIN": {
       "total_strikes": 7,
-      "captured": 1,
-      "pct_captured": 14.3,
-      "mean_risk_score": 3.0
+      "captured": 7,
+      "pct_captured": 100.0,
+      "mean_risk_score": 22.0
     },
     "HUMPBACK": {
       "total_strikes": 12,
-      "captured": 0,
-      "pct_captured": 0.0,
-      "mean_risk_score": 1.1
+      "captured": 9,
+      "pct_captured": 75.0,
+      "mean_risk_score": 20.8
     },
     "NARW": {
       "total_strikes": 37,
-      "captured": 14,
-      "pct_captured": 37.8,
-      "mean_risk_score": 8.0
+      "captured": 24,
+      "pct_captured": 64.9,
+      "mean_risk_score": 14.0
     }
   },
   "by_month": {
     "1": {
       "strikes_tested": 6,
-      "captured": 3,
-      "pct_captured": 50.0,
-      "mean_score": 7.5
+      "captured": 4,
+      "pct_captured": 66.7,
+      "mean_score": 10.8
     },
     "2": {
       "strikes_tested": 6,
       "captured": 4,
       "pct_captured": 66.7,
-      "mean_score": 16.7
+      "mean_score": 17.8
     },
     "4": {
       "strikes_tested": 9,
@@ -67,39 +67,39 @@
     },
     "5": {
       "strikes_tested": 8,
-      "captured": 0,
-      "pct_captured": 0.0,
-      "mean_score": 3.1
+      "captured": 7,
+      "pct_captured": 87.5,
+      "mean_score": 19.1
     },
     "6": {
       "strikes_tested": 8,
-      "captured": 0,
-      "pct_captured": 0.0,
-      "mean_score": 0.2
+      "captured": 2,
+      "pct_captured": 25.0,
+      "mean_score": 6.4
     },
     "7": {
       "strikes_tested": 8,
-      "captured": 0,
-      "pct_captured": 0.0,
-      "mean_score": 0.3
+      "captured": 7,
+      "pct_captured": 87.5,
+      "mean_score": 16.1
     },
     "8": {
       "strikes_tested": 7,
-      "captured": 0,
-      "pct_captured": 0.0,
-      "mean_score": 0.1
+      "captured": 7,
+      "pct_captured": 100.0,
+      "mean_score": 27.1
     },
     "9": {
       "strikes_tested": 4,
-      "captured": 0,
-      "pct_captured": 0.0,
-      "mean_score": 0.0
+      "captured": 4,
+      "pct_captured": 100.0,
+      "mean_score": 24.2
     },
     "10": {
       "strikes_tested": 6,
-      "captured": 0,
-      "pct_captured": 0.0,
-      "mean_score": 0.0
+      "captured": 6,
+      "pct_captured": 100.0,
+      "mean_score": 28.8
     },
     "11": {
       "strikes_tested": 2,
@@ -116,191 +116,11 @@
   },
   "missed_strikes": [
     {
-      "incident_id": "S047",
-      "species_code": "BLUE",
-      "lat": 37.8,
-      "lon": -123.0,
-      "month": 7,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S049",
-      "species_code": "BLUE",
-      "lat": 37.6,
-      "lon": -122.8,
-      "month": 8,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S050",
-      "species_code": "BLUE",
-      "lat": 33.7,
-      "lon": -119.3,
-      "month": 10,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S051",
-      "species_code": "BLUE",
-      "lat": 37.9,
-      "lon": -123.1,
-      "month": 7,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S052",
-      "species_code": "BLUE",
-      "lat": 33.6,
-      "lon": -118.4,
-      "month": 9,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S053",
-      "species_code": "BLUE",
-      "lat": 37.7,
-      "lon": -122.9,
-      "month": 8,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S054",
-      "species_code": "BLUE",
-      "lat": 33.9,
-      "lon": -119.6,
-      "month": 10,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S048",
-      "species_code": "BLUE",
-      "lat": 33.5,
-      "lon": -118.5,
-      "month": 9,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S056",
-      "species_code": "HUMPBACK",
-      "lat": 37.8,
-      "lon": -122.6,
-      "month": 8,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S062",
-      "species_code": "HUMPBACK",
-      "lat": 33.5,
-      "lon": -118.2,
-      "month": 10,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S064",
-      "species_code": "HUMPBACK",
-      "lat": 37.9,
-      "lon": -123.0,
-      "month": 8,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S070",
-      "species_code": "HUMPBACK",
-      "lat": 33.6,
-      "lon": -118.5,
-      "month": 10,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S074",
-      "species_code": "FIN",
-      "lat": 33.6,
-      "lon": -118.3,
-      "month": 10,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S076",
-      "species_code": "FIN",
-      "lat": 37.8,
-      "lon": -122.8,
-      "month": 8,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S078",
-      "species_code": "FIN",
-      "lat": 33.7,
-      "lon": -118.5,
-      "month": 9,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S060",
-      "species_code": "HUMPBACK",
-      "lat": 37.6,
-      "lon": -122.7,
-      "month": 9,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S046",
-      "species_code": "BLUE",
-      "lat": 33.8,
-      "lon": -119.5,
-      "month": 8,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S080",
-      "species_code": "FIN",
-      "lat": 37.6,
-      "lon": -122.6,
-      "month": 10,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S022",
-      "species_code": "NARW",
-      "lat": 38.0,
-      "lon": -75.0,
-      "month": 12,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
       "incident_id": "S005",
       "species_code": "NARW",
       "lat": 35.5,
       "lon": -75.5,
       "month": 1,
-      "risk_score": 0.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S031",
-      "species_code": "NARW",
-      "lat": 42.0,
-      "lon": -70.1,
-      "month": 4,
       "risk_score": 0.0,
       "risk_tier": "low"
     },
@@ -314,12 +134,30 @@
       "risk_tier": "low"
     },
     {
+      "incident_id": "S022",
+      "species_code": "NARW",
+      "lat": 38.0,
+      "lon": -75.0,
+      "month": 12,
+      "risk_score": 0.0,
+      "risk_tier": "low"
+    },
+    {
+      "incident_id": "S031",
+      "species_code": "NARW",
+      "lat": 42.0,
+      "lon": -70.1,
+      "month": 4,
+      "risk_score": 0.0,
+      "risk_tier": "low"
+    },
+    {
       "incident_id": "S018",
       "species_code": "NARW",
       "lat": 43.0,
       "lon": -70.0,
       "month": 7,
-      "risk_score": 0.02,
+      "risk_score": 1.16,
       "risk_tier": "low"
     },
     {
@@ -328,16 +166,7 @@
       "lat": 43.2,
       "lon": -69.8,
       "month": 6,
-      "risk_score": 0.05,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S009",
-      "species_code": "NARW",
-      "lat": 43.5,
-      "lon": -69.5,
-      "month": 6,
-      "risk_score": 0.1,
+      "risk_score": 1.65,
       "risk_tier": "low"
     },
     {
@@ -346,25 +175,16 @@
       "lat": 44.6,
       "lon": -66.4,
       "month": 6,
-      "risk_score": 0.15,
+      "risk_score": 2.96,
       "risk_tier": "low"
     },
     {
-      "incident_id": "S057",
-      "species_code": "HUMPBACK",
-      "lat": 42.5,
-      "lon": -70.2,
-      "month": 7,
-      "risk_score": 0.17,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S067",
-      "species_code": "HUMPBACK",
-      "lat": 42.2,
-      "lon": -70.3,
+      "incident_id": "S009",
+      "species_code": "NARW",
+      "lat": 43.5,
+      "lon": -69.5,
       "month": 6,
-      "risk_score": 0.18,
+      "risk_score": 3.41,
       "risk_tier": "low"
     },
     {
@@ -373,88 +193,16 @@
       "lat": 42.3,
       "lon": -70.5,
       "month": 6,
-      "risk_score": 0.18,
+      "risk_score": 5.89,
       "risk_tier": "low"
     },
     {
-      "incident_id": "S061",
+      "incident_id": "S067",
       "species_code": "HUMPBACK",
-      "lat": 42.4,
+      "lat": 42.2,
       "lon": -70.3,
       "month": 6,
-      "risk_score": 0.23,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S008",
-      "species_code": "NARW",
-      "lat": 30.2,
-      "lon": -80.5,
-      "month": 2,
-      "risk_score": 0.26,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S028",
-      "species_code": "NARW",
-      "lat": 45.0,
-      "lon": -65.8,
-      "month": 7,
-      "risk_score": 0.3,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S079",
-      "species_code": "FIN",
-      "lat": 42.1,
-      "lon": -70.0,
-      "month": 6,
-      "risk_score": 0.36,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S029",
-      "species_code": "NARW",
-      "lat": 44.2,
-      "lon": -66.8,
-      "month": 8,
-      "risk_score": 0.37,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S036",
-      "species_code": "NARW",
-      "lat": 44.0,
-      "lon": -67.0,
-      "month": 7,
-      "risk_score": 0.44,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S042",
-      "species_code": "NARW",
-      "lat": 44.5,
-      "lon": -66.3,
-      "month": 7,
-      "risk_score": 0.58,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S026",
-      "species_code": "NARW",
-      "lat": 44.5,
-      "lon": -66.5,
-      "month": 6,
-      "risk_score": 0.59,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S040",
-      "species_code": "NARW",
-      "lat": 30.4,
-      "lon": -80.9,
-      "month": 1,
-      "risk_score": 0.69,
+      "risk_score": 5.97,
       "risk_tier": "low"
     },
     {
@@ -463,79 +211,25 @@
       "lat": 42.5,
       "lon": -70.3,
       "month": 5,
-      "risk_score": 0.83,
+      "risk_score": 6.71,
       "risk_tier": "low"
     },
     {
-      "incident_id": "S027",
+      "incident_id": "S008",
       "species_code": "NARW",
-      "lat": 44.8,
-      "lon": -66.2,
-      "month": 7,
-      "risk_score": 0.9,
+      "lat": 30.2,
+      "lon": -80.5,
+      "month": 2,
+      "risk_score": 6.88,
       "risk_tier": "low"
     },
     {
-      "incident_id": "S075",
-      "species_code": "FIN",
-      "lat": 42.2,
-      "lon": -70.5,
-      "month": 5,
-      "risk_score": 1.6,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S004",
-      "species_code": "NARW",
-      "lat": 42.5,
-      "lon": -70.5,
-      "month": 5,
-      "risk_score": 2.38,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S063",
+      "incident_id": "S061",
       "species_code": "HUMPBACK",
-      "lat": 42.0,
-      "lon": -70.1,
-      "month": 5,
-      "risk_score": 3.35,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S023",
-      "species_code": "NARW",
       "lat": 42.4,
-      "lon": -70.2,
-      "month": 5,
-      "risk_score": 3.53,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S059",
-      "species_code": "HUMPBACK",
-      "lat": 42.1,
-      "lon": -70.4,
-      "month": 5,
-      "risk_score": 4.0,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S015",
-      "species_code": "NARW",
-      "lat": 42.0,
-      "lon": -69.8,
-      "month": 5,
-      "risk_score": 4.01,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S069",
-      "species_code": "HUMPBACK",
-      "lat": 42.3,
-      "lon": -70.1,
-      "month": 5,
-      "risk_score": 5.22,
+      "lon": -70.3,
+      "month": 6,
+      "risk_score": 7.38,
       "risk_tier": "low"
     },
     {

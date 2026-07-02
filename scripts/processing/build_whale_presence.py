@@ -134,10 +134,12 @@ def compute_kde_scores(
             )
             scores = kde(eval_points)
 
-            # Normalize to 0–1
-            mn, mx = scores.min(), scores.max()
-            if mx > mn:
-                scores = (scores - mn) / (mx - mn)
+            # Normalize to 0–1 using 95th percentile as ceiling — prevents a single
+            # outlier cluster (e.g. Gulf of St. Lawrence survey effort, which has
+            # no AIS coverage) from suppressing signal everywhere else
+            p95 = np.percentile(scores, 95)
+            if p95 > 0:
+                scores = np.clip(scores / p95, 0, 1)
             else:
                 scores = np.zeros_like(scores)
 

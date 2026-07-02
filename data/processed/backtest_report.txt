@@ -1,6 +1,6 @@
 ============================================================
 WHALE STRIKE RISK NAVIGATOR — STEP 2.5 BACKTEST REPORT
-Generated: 2026-05-26T23:59:05.938338
+Generated: 2026-07-02T22:12:49.196321
 ============================================================
 
 ── PRIMARY RESULT ──────────────────────────────────────────
@@ -8,83 +8,49 @@ Generated: 2026-05-26T23:59:05.938338
   Strikes in grid:           65
   Strikes outside grid:      15
 
-  Scored ≥ 8.5 (medium+):    15 / 80 (18.8%)
-  Scored ≥ 15.8 (high+):      8 / 80 (10.0%)
+  Scored ≥ 8.5 (medium+):    49 / 80 (61.3%)
+  Scored ≥ 15.8 (high+):      33 / 80 (41.2%)
   Primary target (≥70%):     BELOW TARGET ⚠️
 
 ── SIGNAL STRENGTH ─────────────────────────────────────────
-  Mean score at strikes:     5.11
-  Mean score (nonzero cells):2.99
-  Signal ratio:              1.71x
+  Mean score at strikes:     17.25
+  Mean score (nonzero cells):13.33
+  Signal ratio:              1.29x
   (>1.0 means model elevates risk at strike locations)
 
 ── BY SPECIES ──────────────────────────────────────────────
-  BLUE: 0/9 captured (0.0%)  mean score=0.0
-  FIN: 1/7 captured (14.3%)  mean score=3.0
-  HUMPBACK: 0/12 captured (0.0%)  mean score=1.1
-  NARW: 14/37 captured (37.8%)  mean score=8.0
+  BLUE: 9/9 captured (100.0%)  mean score=22.1
+  FIN: 7/7 captured (100.0%)  mean score=22.0
+  HUMPBACK: 9/12 captured (75.0%)  mean score=20.8
+  NARW: 24/37 captured (64.9%)  mean score=14.0
 
 ── BY MONTH ────────────────────────────────────────────────
-  Month 01: 3/6 captured (50.0%)  mean=7.5
-  Month 02: 4/6 captured (66.7%)  mean=16.7
+  Month 01: 4/6 captured (66.7%)  mean=10.8
+  Month 02: 4/6 captured (66.7%)  mean=17.8
   Month 04: 7/9 captured (77.8%)  mean=15.0
-  Month 05: 0/8 captured (0.0%)  mean=3.1
-  Month 06: 0/8 captured (0.0%)  mean=0.2
-  Month 07: 0/8 captured (0.0%)  mean=0.3
-  Month 08: 0/7 captured (0.0%)  mean=0.1
-  Month 09: 0/4 captured (0.0%)  mean=0.0
-  Month 10: 0/6 captured (0.0%)  mean=0.0
+  Month 05: 7/8 captured (87.5%)  mean=19.1
+  Month 06: 2/8 captured (25.0%)  mean=6.4
+  Month 07: 7/8 captured (87.5%)  mean=16.1
+  Month 08: 7/7 captured (100.0%)  mean=27.1
+  Month 09: 4/4 captured (100.0%)  mean=24.2
+  Month 10: 6/6 captured (100.0%)  mean=28.8
   Month 11: 1/2 captured (50.0%)  mean=11.4
   Month 12: 0/1 captured (0.0%)  mean=0.0
 
 ── MISSED STRIKES (scored < target) ───────────────────────
-  S047 BLUE (37.80,-123.00) month=07 score=0.0
-  S049 BLUE (37.60,-122.80) month=08 score=0.0
-  S050 BLUE (33.70,-119.30) month=10 score=0.0
-  S051 BLUE (37.90,-123.10) month=07 score=0.0
-  S052 BLUE (33.60,-118.40) month=09 score=0.0
-  S053 BLUE (37.70,-122.90) month=08 score=0.0
-  S054 BLUE (33.90,-119.60) month=10 score=0.0
-  S048 BLUE (33.50,-118.50) month=09 score=0.0
-  S056 HUMPBACK (37.80,-122.60) month=08 score=0.0
-  S062 HUMPBACK (33.50,-118.20) month=10 score=0.0
-  S064 HUMPBACK (37.90,-123.00) month=08 score=0.0
-  S070 HUMPBACK (33.60,-118.50) month=10 score=0.0
-  S074 FIN (33.60,-118.30) month=10 score=0.0
-  S076 FIN (37.80,-122.80) month=08 score=0.0
-  S078 FIN (33.70,-118.50) month=09 score=0.0
-  S060 HUMPBACK (37.60,-122.70) month=09 score=0.0
-  S046 BLUE (33.80,-119.50) month=08 score=0.0
-  S080 FIN (37.60,-122.60) month=10 score=0.0
-  S022 NARW (38.00,-75.00) month=12 score=0.0
   S005 NARW (35.50,-75.50) month=01 score=0.0
-  S031 NARW (42.00,-70.10) month=04 score=0.0
   S014 NARW (38.50,-74.50) month=11 score=0.0
-  S018 NARW (43.00,-70.00) month=07 score=0.0
-  S039 NARW (43.20,-69.80) month=06 score=0.1
-  S009 NARW (43.50,-69.50) month=06 score=0.1
-  S032 NARW (44.60,-66.40) month=06 score=0.1
-  S057 HUMPBACK (42.50,-70.20) month=07 score=0.2
-  S067 HUMPBACK (42.20,-70.30) month=06 score=0.2
-  S055 HUMPBACK (42.30,-70.50) month=06 score=0.2
-  S061 HUMPBACK (42.40,-70.30) month=06 score=0.2
-  S008 NARW (30.20,-80.50) month=02 score=0.3
-  S028 NARW (45.00,-65.80) month=07 score=0.3
-  S079 FIN (42.10,-70.00) month=06 score=0.4
-  S029 NARW (44.20,-66.80) month=08 score=0.4
-  S036 NARW (44.00,-67.00) month=07 score=0.4
-  S042 NARW (44.50,-66.30) month=07 score=0.6
-  S026 NARW (44.50,-66.50) month=06 score=0.6
-  S040 NARW (30.40,-80.90) month=01 score=0.7
-  S035 NARW (42.50,-70.30) month=05 score=0.8
-  S027 NARW (44.80,-66.20) month=07 score=0.9
-  S075 FIN (42.20,-70.50) month=05 score=1.6
-  S004 NARW (42.50,-70.50) month=05 score=2.4
-  S063 HUMPBACK (42.00,-70.10) month=05 score=3.4
-  S023 NARW (42.40,-70.20) month=05 score=3.5
-  S059 HUMPBACK (42.10,-70.40) month=05 score=4.0
-  S015 NARW (42.00,-69.80) month=05 score=4.0
-  S069 HUMPBACK (42.30,-70.10) month=05 score=5.2
+  S022 NARW (38.00,-75.00) month=12 score=0.0
+  S031 NARW (42.00,-70.10) month=04 score=0.0
+  S018 NARW (43.00,-70.00) month=07 score=1.2
+  S039 NARW (43.20,-69.80) month=06 score=1.6
+  S032 NARW (44.60,-66.40) month=06 score=3.0
+  S009 NARW (43.50,-69.50) month=06 score=3.4
+  S055 HUMPBACK (42.30,-70.50) month=06 score=5.9
+  S067 HUMPBACK (42.20,-70.30) month=06 score=6.0
+  S035 NARW (42.50,-70.30) month=05 score=6.7
+  S008 NARW (30.20,-80.50) month=02 score=6.9
+  S061 HUMPBACK (42.40,-70.30) month=06 score=7.4
   S037 NARW (30.60,-81.20) month=02 score=8.3
   S020 NARW (42.10,-70.30) month=04 score=8.4
   S030 NARW (30.50,-81.10) month=01 score=8.4
