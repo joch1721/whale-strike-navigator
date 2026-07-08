@@ -41,7 +41,7 @@ NOAA_BASE = "https://coast.noaa.gov/htdata/CMSP/AISDataHandler/2024"
 # Sample days per month — spread across beginning, middle, and end of month
 # to capture weekly traffic patterns without downloading all 30 days
 SAMPLE_DAYS = {
-    1:  [5, 15, 25],   # January
+    1:  list(range(1, 32, 3)),  # January — 10-day partial test (every 3rd day)
     2:  [5, 14, 24],   # February
     3:  [5, 15, 25],   # March
     4:  [5, 15, 25],   # April

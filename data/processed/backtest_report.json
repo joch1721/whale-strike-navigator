@@ -1,23 +1,23 @@
 {
-  "generated_at": "2026-07-08T22:52:15.894333",
+  "generated_at": "2026-07-08T23:35:42.281249",
   "total_curated_strikes": 80,
   "strikes_in_grid": 68,
   "strikes_outside_grid": 12,
   "primary_target_score": 8.5,
   "stretch_target_score": 15.8,
-  "n_above_primary_target": 55,
-  "n_above_stretch_target": 39,
-  "pct_above_primary": 68.8,
-  "pct_above_stretch": 48.8,
-  "primary_target_met": "False",
-  "mean_risk_at_strikes": 18.2,
-  "mean_risk_global": 1.3846,
-  "mean_risk_nonzero_cells": 11.95,
-  "signal_ratio": 1.52,
+  "n_above_primary_target": 56,
+  "n_above_stretch_target": 40,
+  "pct_above_primary": 70.0,
+  "pct_above_stretch": 50.0,
+  "primary_target_met": "True",
+  "mean_risk_at_strikes": 18.34,
+  "mean_risk_global": 1.4208,
+  "mean_risk_nonzero_cells": 11.89,
+  "signal_ratio": 1.54,
   "tier_breakdown": {
-    "critical": 28,
+    "critical": 29,
     "medium": 16,
-    "low": 13,
+    "low": 12,
     "high": 11
   },
   "by_species": {
@@ -41,17 +41,17 @@
     },
     "NARW": {
       "total_strikes": 38,
-      "captured": 26,
-      "pct_captured": 68.4,
-      "mean_risk_score": 14.6
+      "captured": 27,
+      "pct_captured": 71.1,
+      "mean_risk_score": 14.9
     }
   },
   "by_month": {
     "1": {
       "strikes_tested": 6,
-      "captured": 4,
-      "pct_captured": 66.7,
-      "mean_score": 10.7
+      "captured": 5,
+      "pct_captured": 83.3,
+      "mean_score": 12.3
     },
     "2": {
       "strikes_tested": 6,
@@ -154,7 +154,7 @@
       "lat": 35.5,
       "lon": -75.5,
       "month": 1,
-      "risk_score": 0.03,
+      "risk_score": 0.02,
       "risk_tier": "low"
     },
     {
@@ -218,15 +218,6 @@
       "lon": -70.3,
       "month": 4,
       "risk_score": 8.38,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S030",
-      "species_code": "NARW",
-      "lat": 30.5,
-      "lon": -81.1,
-      "month": 1,
-      "risk_score": 8.43,
       "risk_tier": "low"
     },
     {
