@@ -1,85 +1,125 @@
-# 🐋 Whale Ship-Strike Risk Navigator
+# Whale Ship-Strike Risk Navigator
 
-An open, continuously-updated tool showing where global shipping lanes and whale habitats dangerously overlap — visualized on a live map with real-time risk scoring.
+Live URLs:
+- Frontend: https://whale-strike-navigator.vercel.app
+- Backend: https://whale-strike-navigator-api.onrender.com
+- GitHub: https://github.com/joch1721/whale-strike-navigator
 
-## Why This Exists
+## Current Status
 
-North Atlantic Right Whales are down to ~400 individuals. Ship strikes are one of the leading causes of death. NOAA and IMO assess risk manually and seasonally. This tool makes that risk visible, live, and public.
+### Completed
 
-## Target Species
+- ✅ All 6 phases built and deployed (Vercel + Render)
+- ✅ 39,756 ocean grid cells (Atlantic + Pacific bounding boxes)
+- ✅ Full 12 months of risk scores computed (Jan–Dec 2024), both coasts
+- ✅ 4 species: NARW, Blue, Humpback, Fin
+- ✅ Live vessel layer via aisstream.io on-demand WebSocket
+- ✅ Species drawer with threats/population/monthly chart
+- ✅ Seasonal playback animation across all 12 months
+- ✅ Incident click popups
+- ✅ Bounding box expanded to 50°N (captures Gulf of St. Lawrence)
+- ✅ Pacific bounding box added (Santa Barbara + Gulf of Farallones + San Pedro Channel)
+- ✅ Streaming AIS downloads with retry logic (handles large NOAA files reliably)
+- ✅ Whale presence KDE normalization fixed (95th-percentile ceiling, prevents
+  Gulf of St. Lawrence survey-effort outlier from suppressing signal elsewhere)
+- ✅ Dynamic month scrubber (reflects actual available months from API, no
+  hardcoded month list to maintain)
+- ✅ Custom whale icon set (replaces emoji), updated typography
+  (Space Grotesk / IBM Plex Mono)
+- ✅ Species panel / risk legend layout fixed with shared flex container
+  (panels can no longer overlap regardless of content height)
 
-| Species | Est. Population | IUCN Status |
+### Remaining Limitations
+
+| # | Limitation | Status |
 |---|---|---|
-| North Atlantic Right Whale | ~400 | Critically Endangered |
-| Blue Whale | 10,000–25,000 | Endangered |
-| Humpback Whale | ~135,000 | Least Concern (some subpops endangered) |
-| Fin Whale | ~100,000 | Vulnerable |
+| 1 | Bounding box too small | ✅ Fixed (50°N + Pacific) |
+| 2 | AIS sampled 3 days/month | Still sampled, now across all 12 months |
+| 3 | Blue Whale sparse Atlantic records | ✅ Fixed (Pacific bbox) — 100% capture |
+| 4 | Gulf of St. Lawrence — no AIS coverage (Canadian waters) | Documented; risk scores there are accurately near-zero |
+| 5 | Methodology note in UI (score is relative) | Not yet done |
+| 6 | Speed factor uses mean not 75th percentile | Not yet done |
+| 7 | June (month 06) capture rate outlier — 25% | Under investigation |
 
-## Data Sources
+## Backtest Results (current)
 
-| Data | Source |
-|---|---|
-| AIS Shipping (historical) | [NOAA MarineCadastre](https://marinecadastre.gov/ais/) |
-| AIS Shipping (live) | [aisstream.io](https://aisstream.io) |
-| Whale occurrences | [OBIS-SEAMAP](https://seamap.env.duke.edu), [GBIF](https://www.gbif.org) |
-| Right Whale zones | [NOAA Fisheries Shapefiles](https://www.fisheries.noaa.gov) |
-| Strike incidents | Curated from Jensen & Silber (2003), Laist et al. (2001), NOAA UME reports |
+- 65/80 strikes in grid (15 outside current bounding boxes)
+- Capture rate (medium+): **61.3%** (49/80), up from 30.0% before the
+  12-month AIS rebuild and whale presence normalization fix
+- Capture rate (high+): 41.2% (33/80)
+- Signal ratio: 1.29×
+- BLUE: 100% captured (9/9) — up from 0% before Pacific AIS coverage
+- FIN: 100% captured (7/7)
+- HUMPBACK: 75.0% captured (9/12)
+- NARW: 64.9% captured (24/37)
+- Weakest month: June at 25% capture — see `docs/methodology.md` Known
+  Limitations for details
 
 ## Tech Stack
 
-- **Frontend:** React + Vite, Mapbox GL JS, Recharts
-- **Backend:** Python + FastAPI, GeoPandas, Shapely
-- **Scheduling:** APScheduler (AIS refresh every 15 min)
-- **Deployment:** Vercel (frontend) + Render (backend)
+- **Frontend:** React + Vite, Mapbox GL JS, Recharts → Vercel
+- **Backend:** Python + FastAPI, GeoPandas, Shapely → Render (free tier)
+- **Scheduling:** APScheduler (AIS check every 15 min)
+- **Live vessels:** On-demand WebSocket to aisstream.io (~10s collect per request)
 
-## Risk Score Formula
+## Environment
+
+- macOS, Python 3.12 in `.venv` inside `backend/`
+- Always activate: `source .venv/bin/activate` from `backend/`
+- Run scripts from `backend/` with `python ../scripts/...`
+- Render auto-deploys on push to `main`
+- Vercel auto-deploys on push to `main`
+- Large commits may need: `git config http.postBuffer 524288000`
+
+## Project Structure
+
+```
+whale-strike-navigator/
+├── backend/app/
+│   ├── main.py               # FastAPI + lifespan
+│   ├── config.py             # Settings from .env
+│   ├── routers/              # risk, species, incidents, whale_zones, vessels
+│   ├── services/             # data_loader, scheduler
+│   └── utils/                # cache, logging, species
+├── frontend/src/
+│   ├── App.jsx               # Main map + all layers
+│   └── components/           # SpeciesPanel, SpeciesDrawer, MonthScrubber,
+│                              # RiskLegend, StatsBar, WhaleIcon
+├── scripts/
+│   ├── ingestion/             # fetch_noaa_ais, fetch_whale_occurrences,
+│   │                          # fetch_whale_zones, fetch_strike_incidents,
+│   │                          # stream_aisstream
+│   └── processing/            # build_grid, build_shipping_density,
+│                              # build_whale_presence, build_risk_scores,
+│                              # backtest_risk_model, build_live_risk,
+│                              # validate_spatial_join
+├── data/
+│   ├── processed/            # grid_cells, risk_grid_*, shipping_density_*,
+│   │                         # whale_presence_* (all committed to git)
+│   ├── raw/incidents/        # strike_incidents.parquet (committed)
+│   ├── raw/whale_occurrences/# species parquets (committed)
+│   └── shapefiles/           # narw_sma_zones.* (committed)
+└── docs/methodology.md       # Risk formula, limitations, data pipeline
+```
+
+## Risk Formula
 
 ```
 shipping_component = shipping_density × mean(speed_factor, vessel_type_weight)
 Risk = shipping_component × whale_presence_probability × 100
 ```
 
-Normalized to 0–100 using log normalization on vessel counts (prevents port dominance skew).
-Computed per 0.1° × 0.1° grid cell, per month.
+- Shipping density: log-normalized vessel counts (prevents port dominance)
+- Speed factor: ≤10kn→0.3, 10–14kn→0.6, ≥14kn→1.0
+- Whale presence: max(KDE score, SMA zone overlap), KDE normalized to
+  95th-percentile ceiling
+- Tiers: critical≥20.5, high≥15.8, medium≥8.5, low<8.5 (calibrated to p95/p90/p75)
 
-### Risk Tiers (calibrated to score distribution)
-| Tier | Score | Threshold |
-|---|---|---|
-| Critical | ≥ 20.5 | p95 of active cells |
-| High | 15.8 – 20.5 | p90 |
-| Medium | 8.5 – 15.8 | p75 |
-| Low | < 8.5 | below p75 |
+## Next Steps
 
-## Build Status
-
-- [x] Phase 1.1 — Project scaffold
-- [x] Phase 1.2 — NOAA AIS ingestion (6 months, log-normalized)
-- [x] Phase 1.3 — Whale occurrence data (GBIF + OBIS, 4 species)
-- [x] Phase 1.4 — NOAA Right Whale shapefiles (10 SMA zones)
-- [x] Phase 1.5 — Historical strike incidents (80 curated)
-- [x] Phase 1.6 — Spatial join validation (1.55x signal ratio)
-- [x] Phase 2.1 — Grid cell definition (35,624 ocean cells)
-- [x] Phase 2.2 — Shipping density layer (log-normalized, per month)
-- [x] Phase 2.3 — Whale presence probability (KDE + zone overlap)
-- [x] Phase 2.4 — Composite risk formula (0–49.5 score range)
-- [x] Phase 2.5 — Backtest against strike incidents
-- [x] Phase 3.1 — FastAPI endpoints (risk, species, incidents, zones, vessels)
-- [x] Phase 3.2 — Caching (TTLCache) + APScheduler (15 min AIS refresh)
-- [x] Phase 4.1 — React + Vite scaffold
-- [x] Phase 4.2 — Shipping density heatmap layer
-- [x] Phase 4.3 — Whale zone polygons
-- [x] Phase 4.4 — Risk overlap layer
-- [x] Phase 4.5 — Incident markers with click popup
-- [x] Phase 4.6 — Controls (month scrubber, species filter, live toggle)
-- [x] Phase 5.1 — Species panel with detail drawer
-- [x] Phase 5.2 — Seasonal playback animation
-- [x] Live vessel layer (aisstream.io WebSocket collector)
-- [ ] Phase 6.1 — Live AIS → risk score integration
-- [ ] Phase 6.2 — Frontend deployment (Vercel)
-- [ ] Phase 6.3 — Backend deployment (Render)
-- [ ] Phase 6.4 — README + blog post
-- [ ] Phase 6.5 — Outreach
-
-## License
-
-MIT — open source, open data, open ocean.
+1. Investigate the June capture-rate gap (Cape Cod Bay / Bay of Fundy)
+2. Add methodology tooltip to UI (score is relative, not absolute)
+3. Upgrade speed factor from mean to 75th-percentile vessel speed
+4. Draft outreach messages for NOAA Fisheries, Cascadia Research Collective,
+   Ocean Alliance, Whale Alert, WILDLABS.net
+5. Write blog post
