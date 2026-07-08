@@ -67,10 +67,10 @@ def load_land_mask() -> gpd.GeoDataFrame:
     """
     import io, ssl, certifi, httpx, json
 
-    logger.info("Loading land mask (Natural Earth 110m)...")
+    logger.info("Loading land mask (Natural Earth 10m — high resolution)...")
     url = (
         "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/"
-        "master/geojson/ne_110m_land.geojson"
+        "master/geojson/ne_10m_land.geojson"
     )
     try:
         r = httpx.get(url, timeout=30, verify=certifi.where())
