@@ -64,7 +64,8 @@ def compute_risk(shipping: pd.DataFrame, presence: pd.DataFrame) -> pd.DataFrame
     """
     df = shipping.merge(
         presence[["cell_id", "whale_presence_prob", "kde_score",
-                  "zone_overlap", "species_present"]],
+                  "zone_overlap", "species_present",
+                  "sample_count", "confidence_tier"]],
         on="cell_id",
         how="left",
     )
@@ -133,6 +134,7 @@ def main() -> None:
             "shipping_density", "speed_factor", "vessel_type_weight",
             "whale_presence_prob", "kde_score", "zone_overlap",
             "risk_score", "risk_tier", "species_present",
+            "sample_count", "confidence_tier",
         ]]
 
         df.to_parquet(out_path, index=False)

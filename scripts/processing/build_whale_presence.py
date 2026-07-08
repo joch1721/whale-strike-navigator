@@ -42,6 +42,8 @@ import pandas as pd
 from scipy.stats import gaussian_kde
 from shapely.geometry import Point
 from loguru import logger
+from scipy.spatial import cKDTree
+
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -163,6 +165,33 @@ def compute_kde_scores(
     return result
 
 
+def compute_sample_counts(
+    occurrences: pd.DataFrame,
+    grid: pd.DataFrame,
+    month: int,
+) -> pd.Series:
+    """
+    For each grid cell, count how many occurrence records (across all species)
+    fall within one KDE bandwidth radius. This is a rough proxy for how much
+    evidence backs that cell's presence score — a cell built from 2 nearby
+    sightings shouldn't be visually equivalent to one built from 200.
+    """
+    month_occ = occurrences[occurrences["month"] == month]
+    counts = np.zeros(len(grid), dtype=int)
+
+    if month_occ.empty:
+        return pd.Series(counts, index=grid.index)
+
+    grid_tree = cKDTree(np.vstack([grid["lon"].values, grid["lat"].values]).T)
+
+    for species, grp in month_occ.groupby("species_code"):
+        occ_tree = cKDTree(np.vstack([grp["lon"].values, grp["lat"].values]).T)
+        neighbors = grid_tree.query_ball_tree(occ_tree, r=KDE_BANDWIDTH)
+        counts += np.array([len(n) for n in neighbors])
+
+    return pd.Series(counts, index=grid.index)
+
+
 # ── Zone overlap ──────────────────────────────────────────────────────────────
 
 def compute_zone_overlap(
@@ -231,6 +260,13 @@ def compute_month(
     kde_df["zone_overlap"] = kde_df["zone_overlap"].round(4)
     kde_df["month"]        = month
 
+    kde_df["sample_count"] = compute_sample_counts(occurrences, grid, month).values
+    kde_df["confidence_tier"] = np.select(
+        [kde_df["sample_count"] < 5, kde_df["sample_count"] < 20],
+        ["low", "medium"],
+        default="high",
+    )
+
     n_nonzero = (kde_df["whale_presence_prob"] > 0).sum()
     logger.info(
         f"  whale_presence_prob: {n_nonzero:,} cells > 0  |  "
@@ -242,6 +278,7 @@ def compute_month(
         "cell_id", "lat", "lon", "month",
         "kde_score", "zone_overlap",
         "whale_presence_prob", "species_present",
+        "sample_count", "confidence_tier",
     ]]
 
 

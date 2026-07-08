@@ -15,9 +15,9 @@ const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 const TIER_COLORS = {
   critical: '#ff2d55',
-  high:     '#ff9f0a',
-  medium:   '#30d158',
-  low:      '#0a84ff',
+  high: '#ff9f0a',
+  medium: '#30d158',
+  low: '#0a84ff',
 }
 
 // Live vessel refresh interval (ms)
@@ -25,18 +25,18 @@ const LIVE_REFRESH_MS = 60_000
 
 export default function App() {
   const mapContainer = useRef(null)
-  const map          = useRef(null)
-  const liveTimer    = useRef(null)
+  const map = useRef(null)
+  const liveTimer = useRef(null)
 
-  const [month, setMonth]                 = useState(3)
+  const [month, setMonth] = useState(3)
   const [activeSpecies, setActiveSpecies] = useState(null)
-  const [riskSummary, setRiskSummary]     = useState(null)
-  const [loading, setLoading]             = useState(true)
-  const [dataReady, setDataReady]         = useState(false)
-  const [hoveredCell, setHoveredCell]     = useState(null)
-  const [liveStatus, setLiveStatus]       = useState({ count: 0, date: null })
+  const [riskSummary, setRiskSummary] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [dataReady, setDataReady] = useState(false)
+  const [hoveredCell, setHoveredCell] = useState(null)
+  const [liveStatus, setLiveStatus] = useState({ count: 0, date: null })
   const [liveRiskCount, setLiveRiskCount] = useState(0)
-  const [showLive, setShowLive]           = useState(true)
+  const [showLive, setShowLive] = useState(true)
 
   // ── Init map ──────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -69,14 +69,21 @@ export default function App() {
           'fill-color': [
             'match', ['get', 'risk_tier'],
             'critical', TIER_COLORS.critical,
-            'high',     TIER_COLORS.high,
-            'medium',   TIER_COLORS.medium,
-            'low',      TIER_COLORS.low,
+            'high', TIER_COLORS.high,
+            'medium', TIER_COLORS.medium,
+            'low', TIER_COLORS.low,
             '#0a84ff',
           ],
           'fill-opacity': [
-            'interpolate', ['linear'], ['get', 'risk_score'],
-            0, 0.0, 8.5, 0.25, 20.0, 0.55, 35.0, 0.80, 49.5, 0.95,
+            '*',
+            ['interpolate', ['linear'], ['get', 'risk_score'],
+              0, 0.0, 8.5, 0.25, 20.0, 0.55, 35.0, 0.80, 49.5, 0.95],
+            ['match', ['get', 'confidence_tier'],
+              'low', 0.35,
+              'medium', 0.7,
+              'high', 1.0,
+              1.0,
+            ],
           ],
         },
       })
@@ -85,6 +92,19 @@ export default function App() {
         type: 'line',
         source: 'risk-grid',
         paint: { 'line-color': '#ffffff', 'line-opacity': 0.05, 'line-width': 0.3 },
+      })
+
+      map.current.addLayer({
+        id: 'risk-border-lowconf',
+        type: 'line',
+        source: 'risk-grid',
+        filter: ['==', ['get', 'confidence_tier'], 'low'],
+        paint: {
+          'line-color': '#ffffff',
+          'line-opacity': 0.25,
+          'line-width': 0.6,
+          'line-dasharray': [1, 1],
+        },
       })
 
       // SMA zones
@@ -144,9 +164,9 @@ export default function App() {
           ],
           'circle-color': [
             'match', ['get', 'speed_tier'],
-            'fast',    '#ff9f0a',
-            'medium',  '#ffd60a',
-            'slow',    '#30d158',
+            'fast', '#ff9f0a',
+            'medium', '#ffd60a',
+            'slow', '#30d158',
             'unknown', '#5ac8fa',
             '#5ac8fa',
           ],
@@ -171,8 +191,8 @@ export default function App() {
           'fill-color': [
             'match', ['get', 'risk_tier'],
             'critical', '#ff2d55',
-            'high',     '#ff9f0a',
-            'medium',   '#30d158',
+            'high', '#ff9f0a',
+            'medium', '#30d158',
             '#0a84ff',
           ],
           'fill-opacity': 0.35,
@@ -233,8 +253,8 @@ export default function App() {
           : 'unknown speed'
         const outcome = props.outcome ? props.outcome.toUpperCase() : 'UNKNOWN'
         const outcomeColor =
-          props.outcome === 'lethal'   ? '#ff2d55' :
-          props.outcome === 'injurious'? '#ff9f0a' : '#7eb8d4'
+          props.outcome === 'lethal' ? '#ff2d55' :
+            props.outcome === 'injurious' ? '#ff9f0a' : '#7eb8d4'
         incidentPopup
           .setLngLat(coords)
           .setHTML(`
@@ -258,11 +278,13 @@ export default function App() {
         if (e.features.length > 0) {
           const props = e.features[0].properties
           setHoveredCell({
-            score:   props.risk_score,
-            tier:    props.risk_tier,
+            score: props.risk_score,
+            tier: props.risk_tier,
             species: props.species_present,
-            lat:     props.lat,
-            lon:     props.lon,
+            lat: props.lat,
+            lon: props.lon,
+            sampleCount: props.sample_count,
+            confidence: props.confidence_tier,
           })
           map.current.getCanvas().style.cursor = 'crosshair'
         }
@@ -334,7 +356,7 @@ export default function App() {
           type: 'FeatureCollection', features,
         })
         const visibility = showLive ? 'visible' : 'none'
-        map.current.setLayoutProperty('live-risk-fill',   'visibility', visibility)
+        map.current.setLayoutProperty('live-risk-fill', 'visibility', visibility)
         map.current.setLayoutProperty('live-risk-border', 'visibility', visibility)
       }
       setLiveRiskCount(data.cell_count)
@@ -441,20 +463,20 @@ export default function App() {
 
       <div className="scrubber-container">
         <MonthScrubber
-  month={month}
-  onChange={setMonth}
-  dataMonths={riskSummary?.months?.map(m => m.month).sort((a, b) => a - b) ?? [1]}
-/>
+          month={month}
+          onChange={setMonth}
+          dataMonths={riskSummary?.months?.map(m => m.month).sort((a, b) => a - b) ?? [1]}
+        />
       </div>
 
       <div className="right-rail">
-  <div className="right-rail-scroll">
-    <SpeciesPanel active={activeSpecies} onSelect={setActiveSpecies} />
-  </div>
-  <div className="right-rail-legend">
-    <RiskLegend showLive={showLive} />
-  </div>
-</div>
+        <div className="right-rail-scroll">
+          <SpeciesPanel active={activeSpecies} onSelect={setActiveSpecies} />
+        </div>
+        <div className="right-rail-legend">
+          <RiskLegend showLive={showLive} />
+        </div>
+      </div>
 
       {hoveredCell && (
         <div className="hover-tooltip">
@@ -465,6 +487,9 @@ export default function App() {
           {hoveredCell.species && (
             <div className="tooltip-species">{hoveredCell.species.replace(/,/g, ' · ')}</div>
           )}
+          <div className="tooltip-confidence">
+            {hoveredCell.sampleCount} obs nearby · {hoveredCell.confidence} confidence
+          </div>
           <div className="tooltip-coords">
             {hoveredCell.lat.toFixed(2)}°N {Math.abs(hoveredCell.lon).toFixed(2)}°W
           </div>

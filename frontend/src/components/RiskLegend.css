@@ -3,6 +3,12 @@
 .legend-item { display: flex; align-items: center; gap: 8px; }
 .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
 .incident-dot { background: #ff375f; border-radius: 50%; border: 1.5px solid white; }
+.confidence-dot {
+  background: transparent;
+  border: 1.5px dashed #fff;
+  opacity: 0.6;
+  border-radius: 2px;
+}
 .legend-line { width: 18px; height: 2px; flex-shrink: 0; }
 .sma-line {
   background: repeating-linear-gradient(90deg, #5ac8fa 0, #5ac8fa 4px, transparent 4px, transparent 7px);
