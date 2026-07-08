@@ -1,11 +1,48 @@
 .region-selector {
+  position: relative;
   width: 190px;
 }
 
-.region-list {
+.region-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 10px 12px;
+}
+
+.region-trigger-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.region-chevron {
+  font-size: 10px;
+  color: var(--text-dim);
+  transition: transform 0.15s ease;
+}
+
+.region-chevron.open {
+  transform: rotate(180deg);
+}
+
+.region-trigger.open {
+  border-color: var(--accent);
+}
+
+.region-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  z-index: 20;
+  animation: fadeIn 0.15s ease;
 }
 
 .region-btn {
