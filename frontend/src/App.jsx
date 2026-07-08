@@ -8,6 +8,7 @@ import RiskLegend from './components/RiskLegend'
 import MonthScrubber from './components/MonthScrubber'
 import StatsBar from './components/StatsBar'
 import WhaleIcon from './components/WhaleIcon'
+import RegionSelector from './components/RegionSelector'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
 const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
@@ -433,6 +434,10 @@ export default function App() {
           </button>
         </div>
       </header>
+
+      <div className="region-container">
+        <RegionSelector mapRef={map} />
+      </div>
 
       <div className="scrubber-container">
         <MonthScrubber
