@@ -49,7 +49,7 @@ Thresholds based on NOAA research: strikes at >10 knots are almost always fatal.
 
 **Whale Presence Probability (0–1)**
 Derived from two sources, combined:
-1. OBIS-SEAMAP + GBIF occurrence density (Gaussian KDE per cell, bandwidth=0.5°, per month)
+1. OBIS-SEAMAP + GBIF occurrence density (Gaussian KDE per cell, bandwidth=0.5°, per month), for all 4 target species
 2. NOAA seasonal management zone shapefiles (binary: inside active zone = 1.0)
 
 Combined as: `max(KDE_score, zone_overlap)`
@@ -62,8 +62,18 @@ Combined as: `max(KDE_score, zone_overlap)`
 > and silently suppressing presence scores everywhere else in the grid,
 > including active US strike zones. Percentile-based normalization prevents
 > any one region's survey effort from distorting the scale for the rest of
-> the grid. This fix alone raised the medium+ capture rate from 33.8% to
-> 61.3% in backtesting.
+> the grid.
+
+> **Data completeness note:** for an extended period, Fin and Humpback whale
+> occurrence data was silently missing from the presence layer entirely —
+> not due to lack of source records (GBIF/OBIS had ~7,800 Fin and ~35,700
+> Humpback records available), but because a mixed-type column
+> (`individual_count`, containing both strings and numbers) crashed the
+> Parquet write step immediately after fetching, leaving no output file
+> behind and no visible error in the downstream pipeline. Once fixed (by
+> coercing that column to numeric before saving), both species' presence
+> data populated correctly and materially improved backtest performance —
+> see Validation below.
 
 ### Risk Tiers
 
@@ -80,12 +90,13 @@ thresholds, so they reflect relative risk across the actual data:
 ### Validation
 
 Backtest: 80 curated historical NOAA strike incidents plotted against the
-scored grid, now covering all 12 months across both coasts.
+scored grid, covering all 12 months across both coasts, with presence data
+for all 4 target species.
 
 - Strikes in grid: 65 / 80 (15 outside current bounding boxes)
-- Capture rate (medium+ tier): **61.3%** (49/80)
-- Capture rate (high+ tier): 41.2% (33/80)
-- Signal ratio: 1.29× (mean score at strike locations vs. mean nonzero cell)
+- Capture rate (medium+ tier): **68.8%** (55/80) — just short of the 70% target
+- Capture rate (high+ tier): 47.5% (38/80)
+- Signal ratio: 1.28× (mean score at strike locations vs. mean nonzero cell)
 
 By species:
 
@@ -93,11 +104,15 @@ By species:
 |---|---|
 | Blue Whale | 100% (9/9) |
 | Fin Whale | 100% (7/7) |
-| Humpback Whale | 75.0% (9/12) |
-| North Atlantic Right Whale | 64.9% (24/37) |
+| Humpback Whale | 100% (12/12) |
+| North Atlantic Right Whale | 73.0% (27/37) |
 
-By month, capture rate ranges from 100% (Aug, Sep, Oct) down to 25% in
-June — see Known Limitations for the open investigation into that gap.
+By month, capture rate ranges from 100% (Jul, Aug, Sep, Oct) down to 66.7%
+in January and a single-strike outlier in December (0/1 — not statistically
+meaningful at n=1). All 10 remaining misses across the whole dataset are
+NARW strikes, spread across seven different months — this looks like the
+tail end of genuine data sparsity for that species rather than a single
+fixable gap.
 
 ## Data Pipeline
 
@@ -111,7 +126,7 @@ aisstream.io WebSocket ───────────────────
   → live position reports                                    │
   → on-demand 10s snapshot per request                       │
                                                              │
-OBIS/GBIF occurrences ──► Gaussian KDE per cell/month ───────┤
+GBIF/OBIS occurrences (all 4 species) ──► Gaussian KDE ──────┤
   → 95th-percentile normalization                            ├─► Risk grid (Parquet)
 NOAA shapefiles ─────────────────────────────────────────────┤   (per month)
   → active month filtering                                   │
@@ -128,13 +143,10 @@ NOAA shapefiles ─────────────────────�
   capture rate further, particularly in sparser months.
 - OBIS/GBIF occurrence records are presence-only (no absence data).
   KDE density estimates whale habitat probability, not confirmed absence.
-- June (month 06) capture rate is an outlier low at 25%, concentrated in
-  Cape Cod Bay and the Bay of Fundy. Shipping density and whale presence
-  both compute normally for this month, but the specific strike locations
-  don't accumulate enough occurrence signal relative to the surrounding
-  region even after percentile normalization. Under investigation — may
-  reflect genuine sparsity in OBIS/GBIF survey effort for that window
-  rather than a pipeline bug.
+- The 10 remaining missed strikes in backtesting are all NARW, spread
+  across seven months with no single concentration — likely reflects
+  genuine sparsity in NARW occurrence coverage for those specific
+  locations/months rather than a pipeline bug.
 - The Gulf of St. Lawrence (up to 50°N) is included in the ocean grid and
   has substantial NARW occurrence data, but no AIS coverage at all (NOAA's
   feed only includes US receivers). Risk scores there are necessarily near

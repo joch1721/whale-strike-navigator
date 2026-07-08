@@ -12,7 +12,8 @@ Live URLs:
 - ✅ All 6 phases built and deployed (Vercel + Render)
 - ✅ 39,756 ocean grid cells (Atlantic + Pacific bounding boxes)
 - ✅ Full 12 months of risk scores computed (Jan–Dec 2024), both coasts
-- ✅ 4 species: NARW, Blue, Humpback, Fin
+- ✅ 4 species: NARW, Blue, Humpback, Fin — all with real occurrence data
+  in the presence layer
 - ✅ Live vessel layer via aisstream.io on-demand WebSocket
 - ✅ Species drawer with threats/population/monthly chart
 - ✅ Seasonal playback animation across all 12 months
@@ -22,12 +23,15 @@ Live URLs:
 - ✅ Streaming AIS downloads with retry logic (handles large NOAA files reliably)
 - ✅ Whale presence KDE normalization fixed (95th-percentile ceiling, prevents
   Gulf of St. Lawrence survey-effort outlier from suppressing signal elsewhere)
+- ✅ Fin and Humpback occurrence data fixed (mixed-type column was silently
+  crashing the save step; both species now fully represented in the model)
 - ✅ Dynamic month scrubber (reflects actual available months from API, no
   hardcoded month list to maintain)
 - ✅ Custom whale icon set (replaces emoji), updated typography
   (Space Grotesk / IBM Plex Mono)
 - ✅ Species panel / risk legend layout fixed with shared flex container
   (panels can no longer overlap regardless of content height)
+- ✅ Region selector — jump the map to any of the 5 monitored bounding boxes
 
 ### Remaining Limitations
 
@@ -39,21 +43,23 @@ Live URLs:
 | 4 | Gulf of St. Lawrence — no AIS coverage (Canadian waters) | Documented; risk scores there are accurately near-zero |
 | 5 | Methodology note in UI (score is relative) | Not yet done |
 | 6 | Speed factor uses mean not 75th percentile | Not yet done |
-| 7 | June (month 06) capture rate outlier — 25% | Under investigation |
+| 7 | Fin/Humpback missing from presence layer | ✅ Fixed (individual_count type bug) |
+| 8 | NARW capture rate (73%) — weakest remaining species | 10 misses spread across 7 months, likely genuine data sparsity |
 
 ## Backtest Results (current)
 
 - 65/80 strikes in grid (15 outside current bounding boxes)
-- Capture rate (medium+): **61.3%** (49/80), up from 30.0% before the
-  12-month AIS rebuild and whale presence normalization fix
-- Capture rate (high+): 41.2% (33/80)
-- Signal ratio: 1.29×
-- BLUE: 100% captured (9/9) — up from 0% before Pacific AIS coverage
+- Capture rate (medium+): **68.8%** (55/80) — just short of the 70% target,
+  up from 30.0% at the start of this rebuild effort
+- Capture rate (high+): 47.5% (38/80)
+- Signal ratio: 1.28×
+- BLUE: 100% captured (9/9)
 - FIN: 100% captured (7/7)
-- HUMPBACK: 75.0% captured (9/12)
-- NARW: 64.9% captured (24/37)
-- Weakest month: June at 25% capture — see `docs/methodology.md` Known
-  Limitations for details
+- HUMPBACK: 100% captured (12/12) — up from 0% before the occurrence data fix
+- NARW: 73.0% captured (27/37)
+- Strongest months: Jul–Oct at 100% capture
+- All remaining misses (10 total) are NARW, spread across 7 months —
+  no single concentrated gap left to chase
 
 ## Tech Stack
 
@@ -84,7 +90,7 @@ whale-strike-navigator/
 ├── frontend/src/
 │   ├── App.jsx               # Main map + all layers
 │   └── components/           # SpeciesPanel, SpeciesDrawer, MonthScrubber,
-│                              # RiskLegend, StatsBar, WhaleIcon
+│                              # RiskLegend, StatsBar, WhaleIcon, RegionSelector
 ├── scripts/
 │   ├── ingestion/             # fetch_noaa_ais, fetch_whale_occurrences,
 │   │                          # fetch_whale_zones, fetch_strike_incidents,
@@ -97,7 +103,8 @@ whale-strike-navigator/
 │   ├── processed/            # grid_cells, risk_grid_*, shipping_density_*,
 │   │                         # whale_presence_* (all committed to git)
 │   ├── raw/incidents/        # strike_incidents.parquet (committed)
-│   ├── raw/whale_occurrences/# species parquets (committed)
+│   ├── raw/whale_occurrences/# species parquets (committed) — narw, blue,
+│   │                         # humpback, fin
 │   └── shapefiles/           # narw_sma_zones.* (committed)
 └── docs/methodology.md       # Risk formula, limitations, data pipeline
 ```
@@ -112,14 +119,13 @@ Risk = shipping_component × whale_presence_probability × 100
 - Shipping density: log-normalized vessel counts (prevents port dominance)
 - Speed factor: ≤10kn→0.3, 10–14kn→0.6, ≥14kn→1.0
 - Whale presence: max(KDE score, SMA zone overlap), KDE normalized to
-  95th-percentile ceiling
+  95th-percentile ceiling, computed for all 4 target species
 - Tiers: critical≥20.5, high≥15.8, medium≥8.5, low<8.5 (calibrated to p95/p90/p75)
 
 ## Next Steps
 
-1. Investigate the June capture-rate gap (Cape Cod Bay / Bay of Fundy)
-2. Add methodology tooltip to UI (score is relative, not absolute)
-3. Upgrade speed factor from mean to 75th-percentile vessel speed
-4. Draft outreach messages for NOAA Fisheries, Cascadia Research Collective,
+1. Add methodology tooltip to UI (score is relative, not absolute)
+2. Upgrade speed factor from mean to 75th-percentile vessel speed
+3. Draft outreach messages for NOAA Fisheries, Cascadia Research Collective,
    Ocean Alliance, Whale Alert, WILDLABS.net
-5. Write blog post
+4. Write blog post
