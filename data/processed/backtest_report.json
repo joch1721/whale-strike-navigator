@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-07-02T22:12:49.196321",
+  "generated_at": "2026-07-08T21:46:14.120783",
   "total_curated_strikes": 80,
   "strikes_in_grid": 65,
   "strikes_outside_grid": 15,
   "primary_target_score": 8.5,
   "stretch_target_score": 15.8,
-  "n_above_primary_target": 49,
-  "n_above_stretch_target": 33,
-  "pct_above_primary": 61.3,
-  "pct_above_stretch": 41.2,
+  "n_above_primary_target": 55,
+  "n_above_stretch_target": 38,
+  "pct_above_primary": 68.8,
+  "pct_above_stretch": 47.5,
   "primary_target_met": "False",
-  "mean_risk_at_strikes": 17.25,
-  "mean_risk_global": 0.7762,
-  "mean_risk_nonzero_cells": 13.33,
-  "signal_ratio": 1.29,
+  "mean_risk_at_strikes": 18.64,
+  "mean_risk_global": 1.2282,
+  "mean_risk_nonzero_cells": 14.55,
+  "signal_ratio": 1.28,
   "tier_breakdown": {
-    "critical": 26,
-    "medium": 16,
-    "low": 16,
-    "high": 7
+    "critical": 28,
+    "medium": 17,
+    "high": 10,
+    "low": 10
   },
   "by_species": {
     "BLUE": {
@@ -31,19 +31,19 @@
       "total_strikes": 7,
       "captured": 7,
       "pct_captured": 100.0,
-      "mean_risk_score": 22.0
+      "mean_risk_score": 22.8
     },
     "HUMPBACK": {
       "total_strikes": 12,
-      "captured": 9,
-      "pct_captured": 75.0,
-      "mean_risk_score": 20.8
+      "captured": 12,
+      "pct_captured": 100.0,
+      "mean_risk_score": 25.2
     },
     "NARW": {
       "total_strikes": 37,
-      "captured": 24,
-      "pct_captured": 64.9,
-      "mean_risk_score": 14.0
+      "captured": 27,
+      "pct_captured": 73.0,
+      "mean_risk_score": 14.9
     }
   },
   "by_month": {
@@ -55,9 +55,9 @@
     },
     "2": {
       "strikes_tested": 6,
-      "captured": 4,
-      "pct_captured": 66.7,
-      "mean_score": 17.8
+      "captured": 5,
+      "pct_captured": 83.3,
+      "mean_score": 18.6
     },
     "4": {
       "strikes_tested": 9,
@@ -73,15 +73,15 @@
     },
     "6": {
       "strikes_tested": 8,
-      "captured": 2,
-      "pct_captured": 25.0,
-      "mean_score": 6.4
+      "captured": 6,
+      "pct_captured": 75.0,
+      "mean_score": 13.3
     },
     "7": {
       "strikes_tested": 8,
-      "captured": 7,
-      "pct_captured": 87.5,
-      "mean_score": 16.1
+      "captured": 8,
+      "pct_captured": 100.0,
+      "mean_score": 19.9
     },
     "8": {
       "strikes_tested": 7,
@@ -152,24 +152,6 @@
       "risk_tier": "low"
     },
     {
-      "incident_id": "S018",
-      "species_code": "NARW",
-      "lat": 43.0,
-      "lon": -70.0,
-      "month": 7,
-      "risk_score": 1.16,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S039",
-      "species_code": "NARW",
-      "lat": 43.2,
-      "lon": -69.8,
-      "month": 6,
-      "risk_score": 1.65,
-      "risk_tier": "low"
-    },
-    {
       "incident_id": "S032",
       "species_code": "NARW",
       "lat": 44.6,
@@ -179,30 +161,12 @@
       "risk_tier": "low"
     },
     {
-      "incident_id": "S009",
+      "incident_id": "S039",
       "species_code": "NARW",
-      "lat": 43.5,
-      "lon": -69.5,
+      "lat": 43.2,
+      "lon": -69.8,
       "month": 6,
-      "risk_score": 3.41,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S055",
-      "species_code": "HUMPBACK",
-      "lat": 42.3,
-      "lon": -70.5,
-      "month": 6,
-      "risk_score": 5.89,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S067",
-      "species_code": "HUMPBACK",
-      "lat": 42.2,
-      "lon": -70.3,
-      "month": 6,
-      "risk_score": 5.97,
+      "risk_score": 6.01,
       "risk_tier": "low"
     },
     {
@@ -212,24 +176,6 @@
       "lon": -70.3,
       "month": 5,
       "risk_score": 6.71,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S008",
-      "species_code": "NARW",
-      "lat": 30.2,
-      "lon": -80.5,
-      "month": 2,
-      "risk_score": 6.88,
-      "risk_tier": "low"
-    },
-    {
-      "incident_id": "S061",
-      "species_code": "HUMPBACK",
-      "lat": 42.4,
-      "lon": -70.3,
-      "month": 6,
-      "risk_score": 7.38,
       "risk_tier": "low"
     },
     {

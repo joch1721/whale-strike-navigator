@@ -255,6 +255,12 @@ def clean(df: pd.DataFrame, species_key: str) -> pd.DataFrame:
     df = df.dropna(subset=["lat", "lon"])
     df = df[(df["lat"].between(-90, 90)) & (df["lon"].between(-180, 180))]
 
+    # Coerce individual_count to numeric — GBIF/OBIS mix string and numeric
+    # types here, which crashes pyarrow's to_parquet with a type conversion
+    # error, silently preventing the file from ever being saved
+    if "individual_count" in df.columns:
+        df["individual_count"] = pd.to_numeric(df["individual_count"], errors="coerce")
+
     # Final column order
     cols = [
         "species_code", "scientific_name",
