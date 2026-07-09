@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-09T01:02:52.448449",
+  "generated_at": "2026-07-09T02:00:41.871562",
   "total_curated_strikes": 80,
   "strikes_in_grid": 68,
   "strikes_outside_grid": 12,
@@ -10,10 +10,10 @@
   "pct_above_primary": 70.0,
   "pct_above_stretch": 50.0,
   "primary_target_met": "True",
-  "mean_risk_at_strikes": 18.34,
-  "mean_risk_global": 1.5057,
-  "mean_risk_nonzero_cells": 11.85,
-  "signal_ratio": 1.55,
+  "mean_risk_at_strikes": 18.33,
+  "mean_risk_global": 1.7608,
+  "mean_risk_nonzero_cells": 11.61,
+  "signal_ratio": 1.58,
   "tier_breakdown": {
     "critical": 29,
     "medium": 16,
@@ -51,7 +51,7 @@
       "strikes_tested": 6,
       "captured": 5,
       "pct_captured": 83.3,
-      "mean_score": 12.3
+      "mean_score": 12.2
     },
     "2": {
       "strikes_tested": 6,

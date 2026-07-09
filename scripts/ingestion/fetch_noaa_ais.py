@@ -59,12 +59,11 @@ SAMPLE_DAYS = {
 BBOXES = {
     "gulf_of_maine":      (-76.0, 40.0, -60.0, 50.0),
     "southeast_us":       (-82.0, 24.0, -76.0, 32.0),
-    "mid_atlantic":       (-77.0, 32.0, -73.0, 40.0),    # NARW migratory corridor, VA/MD/DE/NJ
-    "santa_barbara":      (-122.0, 32.0, -117.0, 35.5),  # Blue/Humpback hotspot
-    "gulf_farallones":    (-124.0, 36.5, -121.0, 38.5),  # Blue Whale feeding
-    "san_pedro_channel":  (-120.5, 32.5, -117.0, 34.5),  # Humpback/Blue corridor
+    "mid_atlantic":       (-80.0, 32.0, -68.0, 40.0),    # widened: captures NC/SC coast + offshore lanes
+    "santa_barbara":      (-123.0, 32.0, -117.0, 36.5),  # widened: connects to gulf_farallones, more offshore
+    "gulf_farallones":    (-125.0, 35.5, -121.0, 38.5),  # widened: connects to santa_barbara, more offshore
+    "san_pedro_channel":  (-120.5, 32.0, -117.0, 34.5),  # widened south edge to match santa_barbara
 }
-
 # Columns to keep
 KEEP_COLS = ["MMSI", "VesselType", "SOG", "LAT", "LON", "BaseDateTime"]
 RENAME    = {
