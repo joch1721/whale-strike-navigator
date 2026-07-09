@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T23:35:42.281249",
+  "generated_at": "2026-07-09T01:02:52.448449",
   "total_curated_strikes": 80,
   "strikes_in_grid": 68,
   "strikes_outside_grid": 12,
@@ -11,9 +11,9 @@
   "pct_above_stretch": 50.0,
   "primary_target_met": "True",
   "mean_risk_at_strikes": 18.34,
-  "mean_risk_global": 1.4208,
-  "mean_risk_nonzero_cells": 11.89,
-  "signal_ratio": 1.54,
+  "mean_risk_global": 1.5057,
+  "mean_risk_nonzero_cells": 11.85,
+  "signal_ratio": 1.55,
   "tier_breakdown": {
     "critical": 29,
     "medium": 16,
