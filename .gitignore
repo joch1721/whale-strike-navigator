@@ -37,4 +37,4 @@ logs/
 
 # Live data — regenerated at runtime
 data/raw/ais/live_*.parquet
-data/processed/risk_grid_live.parquet
+data/processed/risk_grid_live.parquet.DS_Store
