@@ -33,13 +33,13 @@ Schema:
     species_present      str     comma-separated species contributing to score
 """
 
+import os
 import sys
 from pathlib import Path
 
 import geopandas as gpd
 import numpy as np
 import pandas as pd
-from scipy.stats import gaussian_kde
 from shapely.geometry import Point
 from loguru import logger
 from scipy.spatial import cKDTree
@@ -57,8 +57,23 @@ OUT_DIR    = REPO_ROOT / "data" / "processed"
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
-# KDE bandwidth in degrees (0.5° ≈ 55 km — smooths over data-sparse areas)
-KDE_BANDWIDTH = 0.5
+# KDE bandwidth as an ABSOLUTE isotropic radius in degrees (0.5° ≈ 55 km N–S).
+# NOTE: this is a true fixed bandwidth, applied directly by compute_kde_scores().
+# It is deliberately NOT passed to scipy's gaussian_kde(bw_method=...), because
+# scipy treats a scalar bw_method as a *multiplier on the data covariance*
+# (covariance = data_cov * factor**2), not as an absolute distance. That made the
+# effective smoothing radius scale with each species' geographic spread — tight
+# for clustered NARW, but several degrees wide for Pacific-spread Blue/Fin/Humpback,
+# producing high presence scores hundreds of km from any real sighting (cells with
+# sample_count == 0 yet kde_score == 1.0). Using the same 0.5° here as in
+# compute_sample_counts() keeps kde_score and sample_count on one consistent scale.
+#
+# Overridable via env var for calibration sweeps, e.g.:
+#   KDE_BANDWIDTH=0.75 python ../scripts/processing/build_whale_presence.py
+# Default (0.5) is unchanged if the env var isn't set.
+KDE_BANDWIDTH = float(os.environ.get("KDE_BANDWIDTH", 0.5))
+
+
 
 # Minimum occurrences needed to fit a KDE for a species/month
 MIN_OCCURRENCES = 5
@@ -120,9 +135,17 @@ def compute_kde_scores(
     result["kde_score"] = 0.0
     result["species_present"] = ""
 
-    cell_lons = result["lon"].values
-    cell_lats = result["lat"].values
-    eval_points = np.vstack([cell_lons, cell_lats])  # (2, N)
+    grid_pts  = np.column_stack([result["lon"].values, result["lat"].values])
+    grid_tree = cKDTree(grid_pts)
+
+    # Fixed isotropic Gaussian kernel with an absolute bandwidth in degrees.
+    # We evaluate it by hand (not via scipy) so the smoothing radius is truly
+    # KDE_BANDWIDTH degrees regardless of how spread out a species' sightings are.
+    # Contributions beyond ~4 bandwidths are negligible, so a cKDTree radius query
+    # keeps this cheap (most cells have no nearby occurrences and are skipped).
+    h          = KDE_BANDWIDTH
+    cutoff     = 4.0 * h
+    inv_two_h2 = 1.0 / (2.0 * h * h)
 
     for species, grp in month_occ.groupby("species_code"):
         if len(grp) < MIN_OCCURRENCES:
@@ -130,20 +153,28 @@ def compute_kde_scores(
             continue
 
         try:
-            kde = gaussian_kde(
-                np.vstack([grp["lon"].values, grp["lat"].values]),
-                bw_method=KDE_BANDWIDTH,
-            )
-            scores = kde(eval_points)
+            occ_pts   = np.column_stack([grp["lon"].values, grp["lat"].values])
+            occ_tree  = cKDTree(occ_pts)
+            neighbors = grid_tree.query_ball_tree(occ_tree, r=cutoff)
 
-            # Normalize to 0–1 using 95th percentile as ceiling — prevents a single
-            # outlier cluster (e.g. Gulf of St. Lawrence survey effort, which has
-            # no AIS coverage) from suppressing signal everywhere else
-            p95 = np.percentile(scores, 95)
-            if p95 > 0:
-                scores = np.clip(scores / p95, 0, 1)
+            density = np.zeros(len(result))
+            for i, nbr in enumerate(neighbors):
+                if nbr:
+                    diff = occ_pts[nbr] - grid_pts[i]
+                    d2   = np.einsum("ij,ij->i", diff, diff)  # squared degree-distance
+                    density[i] = np.exp(-d2 * inv_two_h2).sum()
+
+            # Normalize to 0–1 using the 95th percentile of the CELLS THAT HAVE SIGNAL
+            # as the ceiling. This still prevents a single dense outlier cluster (e.g.
+            # Gulf of St. Lawrence survey effort, which has no AIS coverage) from
+            # suppressing signal elsewhere, but — unlike a p95 over all cells — it
+            # stays valid now that a tight kernel leaves most of the grid at exactly 0.
+            nonzero = density[density > 0]
+            if nonzero.size:
+                ceiling = np.percentile(nonzero, 95)
+                scores = np.clip(density / ceiling, 0, 1) if ceiling > 0 else np.zeros_like(density)
             else:
-                scores = np.zeros_like(scores)
+                scores = np.zeros_like(density)
 
             # Take max across species (a cell is high-risk if ANY species is present)
             result["kde_score"] = np.maximum(result["kde_score"].values, scores)
@@ -154,7 +185,7 @@ def compute_kde_scores(
                 lambda s: (s + "," + species).strip(",") if species not in s else s
             )
 
-            logger.debug(f"    {species}: KDE fitted on {len(grp)} records, "
+            logger.debug(f"    {species}: fixed-bandwidth KDE on {len(grp)} records, "
                         f"max score={scores.max():.3f}")
 
         except Exception as e:
