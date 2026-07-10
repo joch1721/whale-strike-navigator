@@ -146,6 +146,32 @@ export default function App() {
         },
       })
 
+      // Candidate incidents — NOT part of the curated/backtested dataset.
+      // Loaded straight from a static file, never touches the backend or
+      // strike_incidents.parquet, so it can never leak into the backtest.
+      // Styled deliberately unlike the real incidents-layer (hollow, dashed,
+      // muted amber) so it reads as "unverified" at a glance.
+      map.current.addSource('candidate-incidents', {
+        type: 'geojson',
+        data: '/candidate_incidents.geojson',
+      })
+      map.current.addLayer({
+        id: 'candidate-incidents-layer',
+        type: 'circle',
+        source: 'candidate-incidents',
+        paint: {
+          'circle-radius': 6,
+          'circle-color': 'rgba(0,0,0,0)',
+          'circle-stroke-color': [
+            'match', ['get', 'confidence'],
+            'inferred_candidate', '#ffd60a',
+            '#ff9f0a',
+          ],
+          'circle-stroke-width': 2,
+          'circle-stroke-opacity': 0.9,
+        },
+      })
+
       // Live vessels source
       map.current.addSource('live-vessels', {
         type: 'geojson',
@@ -270,6 +296,40 @@ export default function App() {
         map.current.getCanvas().style.cursor = 'pointer'
       })
       map.current.on('mouseleave', 'incidents-layer', () => {
+        map.current.getCanvas().style.cursor = ''
+      })
+
+      // Candidate incident click popup — visually and textually distinct
+      // from the confirmed incidentPopup above.
+      const candidatePopup = new mapboxgl.Popup({
+        closeButton: true,
+        closeOnClick: true,
+        className: 'vessel-popup',
+      })
+
+      map.current.on('click', 'candidate-incidents-layer', (e) => {
+        const props = e.features[0].properties
+        const coords = e.features[0].geometry.coordinates
+        const isInferred = props.confidence === 'inferred_candidate'
+        const label = isInferred
+          ? 'UNCONFIRMED — geography-only screen, cause NOT verified'
+          : 'Confirmed strike (approximate coordinate)'
+        const labelColor = isInferred ? '#ffd60a' : '#ff9f0a'
+        candidatePopup
+          .setLngLat(coords)
+          .setHTML(`
+            <div class="vpopup-name">${props.species_code || 'Unknown'} — ${props.location || ''}</div>
+            <div class="vpopup-mmsi">${props.year || '—'}${props.month ? '-' + props.month : ''}</div>
+            <div class="vpopup-speed" style="color:${labelColor}">${label}</div>
+            <div class="vpopup-mmsi">${props.notes || ''}</div>
+          `)
+          .addTo(map.current)
+      })
+
+      map.current.on('mouseenter', 'candidate-incidents-layer', () => {
+        map.current.getCanvas().style.cursor = 'pointer'
+      })
+      map.current.on('mouseleave', 'candidate-incidents-layer', () => {
         map.current.getCanvas().style.cursor = ''
       })
 
